@@ -1,4 +1,4 @@
-package com.tamimattafi.mvp.database
+package com.tamimattafi.mvp.repositories.database
 
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteQuery

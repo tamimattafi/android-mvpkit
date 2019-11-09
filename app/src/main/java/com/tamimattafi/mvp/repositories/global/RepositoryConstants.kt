@@ -1,4 +1,4 @@
-package com.tamimattafi.mvp.repositories
+package com.tamimattafi.mvp.repositories.global
 
 object RepositoryConstants {
     const val UNKNOWN_ERROR = "Unknown error occurred."

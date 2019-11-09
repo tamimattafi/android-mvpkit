@@ -1,9 +1,10 @@
-package com.tamimattafi.mvp.api.interactor.client
+package com.tamimattafi.mvp.repositories.api.interactor.client
 
+import com.tamimattafi.mvp.MvpBaseContract.AuthPreferences
+import com.tamimattafi.mvp.MvpBaseContract.Token
+import com.tamimattafi.mvp.repositories.api.interactor.InteractorConstants
 import okhttp3.Interceptor
 import okhttp3.Response
-import com.tamimattafi.mvp.MvpBaseContract.*
-import com.tamimattafi.mvp.api.interactor.InteractorConstants
 
 class AuthInterceptor<T : Token>(private val authPreferences: AuthPreferences<T>) :
     Interceptor {

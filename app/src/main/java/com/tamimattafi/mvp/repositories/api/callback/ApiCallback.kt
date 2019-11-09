@@ -1,12 +1,12 @@
-package com.tamimattafi.mvp.api.callback
+package com.tamimattafi.mvp.repositories.api.callback
 
 import com.google.gson.Gson
+import com.tamimattafi.mvp.MvpBaseContract
+import com.tamimattafi.mvp.repositories.api.interactor.InteractorConstants
+import com.tamimattafi.mvp.repositories.global.RepositoryConstants
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import com.tamimattafi.mvp.MvpBaseContract
-import com.tamimattafi.mvp.api.interactor.InteractorConstants
-import com.tamimattafi.mvp.repositories.RepositoryConstants
 
 class ApiCallback<T, R>(
     private var notification: MvpBaseContract.NotificationCallback<R>?,

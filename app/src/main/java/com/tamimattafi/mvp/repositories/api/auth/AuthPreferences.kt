@@ -1,4 +1,4 @@
-package com.tamimattafi.mvp.api.auth
+package com.tamimattafi.mvp.repositories.api.auth
 
 import android.content.SharedPreferences
 import com.google.gson.Gson

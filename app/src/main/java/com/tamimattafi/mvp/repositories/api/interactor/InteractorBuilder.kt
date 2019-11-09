@@ -1,10 +1,10 @@
-package com.tamimattafi.mvp.api.interactor
+package com.tamimattafi.mvp.repositories.api.interactor
 
 import com.tamimattafi.mvp.MvpBaseContract.Token
+import com.tamimattafi.mvp.repositories.api.interactor.client.AuthHttpClient
+import com.tamimattafi.mvp.repositories.api.interactor.client.AuthInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import com.tamimattafi.mvp.api.interactor.client.AuthHttpClient
-import com.tamimattafi.mvp.api.interactor.client.AuthInterceptor
 
 object InteractorBuilder {
 

@@ -2,6 +2,7 @@ package com.tamimattafi.mvp
 
 import android.os.AsyncTask
 import android.util.Log
+import androidx.sqlite.db.SupportSQLiteQuery
 import io.reactivex.Flowable
 
 
@@ -85,6 +86,17 @@ interface MvpBaseContract {
 
     interface Token {
         val value: String
+    }
+
+    interface Database<T> {
+        fun getRxList(query: SupportSQLiteQuery): Flowable<List<T>>
+        fun getRxItem(query: SupportSQLiteQuery): Flowable<T>
+        fun getList(query: SupportSQLiteQuery): Callback<ArrayList<T>>
+        fun getItem(query: SupportSQLiteQuery): Callback<T>
+        fun delete(item: T): Callback<Int>
+        fun update(item: T): Callback<Int>
+        fun insert(item: T): Callback<Long>
+        fun insertAll(items: ArrayList<T>): Callback<List<Long>>
     }
 
     abstract class Async<PARAM, RESULT>(private val callback: NotificationCallback<RESULT>) : AsyncTask<PARAM, Int, RESULT>() {

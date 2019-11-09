@@ -1,11 +1,11 @@
-package com.tamimattafi.mvp.api.repository
+package com.tamimattafi.mvp.repositories.api.repository
 
-import retrofit2.Call
 import com.tamimattafi.mvp.MvpBaseContract.Callback
 import com.tamimattafi.mvp.MvpBaseContract.NotificationCallback
-import com.tamimattafi.mvp.api.callback.ApiCallback
-import com.tamimattafi.mvp.repositories.BaseRepository
-import com.tamimattafi.mvp.repositories.RepositoryConstants
+import com.tamimattafi.mvp.repositories.api.callback.ApiCallback
+import com.tamimattafi.mvp.repositories.global.BaseRepository
+import com.tamimattafi.mvp.repositories.global.RepositoryConstants
+import retrofit2.Call
 
 open class BaseApiRepository : BaseRepository() {
 

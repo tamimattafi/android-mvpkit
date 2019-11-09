@@ -1,7 +1,7 @@
-package com.tamimattafi.mvp.repositories
+package com.tamimattafi.mvp.repositories.global
 
 import com.tamimattafi.mvp.MvpBaseContract.*
-import com.tamimattafi.mvp.callbacks.ActionCallback
+import com.tamimattafi.mvp.repositories.callbacks.ActionCallback
 
 
 abstract class BaseRepository : Repository {

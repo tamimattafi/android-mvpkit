@@ -1,6 +1,6 @@
-package com.tamimattafi.mvp.api.interactor.client
+package com.tamimattafi.mvp.repositories.api.interactor.client
 
-import com.tamimattafi.mvp.MvpBaseContract.*
+import com.tamimattafi.mvp.MvpBaseContract.Token
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 

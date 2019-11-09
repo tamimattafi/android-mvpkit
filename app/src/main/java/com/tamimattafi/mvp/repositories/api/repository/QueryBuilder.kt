@@ -1,4 +1,4 @@
-package com.tamimattafi.mvp.api.repository
+package com.tamimattafi.mvp.repositories.api.repository
 
 open class QueryBuilder(private val raw: HashMap<String, String> = HashMap()) {
 

@@ -1,8 +1,8 @@
-package com.tamimattafi.mvp.database.async
+package com.tamimattafi.mvp.repositories.database.async
 
 import com.tamimattafi.mvp.MvpBaseContract.Async
 import com.tamimattafi.mvp.MvpBaseContract.NotificationCallback
-import com.tamimattafi.mvp.database.BaseDao
+import com.tamimattafi.mvp.repositories.database.BaseDao
 
 class ListActionAsync<T, R>(callback: NotificationCallback<R>, private val dao: BaseDao<T>) : Async<Pair<Int, ArrayList<T>>, R>(callback) {
 

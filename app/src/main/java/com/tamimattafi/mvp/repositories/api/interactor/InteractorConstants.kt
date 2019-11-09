@@ -1,4 +1,4 @@
-package com.tamimattafi.mvp.api.interactor
+package com.tamimattafi.mvp.repositories.api.interactor
 
 object InteractorConstants {
 

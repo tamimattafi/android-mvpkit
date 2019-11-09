@@ -1,4 +1,4 @@
-package com.tamimattafi.mvp.callbacks
+package com.tamimattafi.mvp.repositories.callbacks
 
 import com.tamimattafi.mvp.MvpBaseContract
 import com.tamimattafi.mvp.MvpBaseContract.Callback
