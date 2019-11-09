@@ -7,7 +7,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-abstract class RxRecyclerPresenter<T, H : Holder, V : ListenerView<H, Adapter>, R : RxListRepository<T>>(
+abstract class RxRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : RxListRepository<T>>(
     view: V,
     repository: R
 ) : BaseRecyclerPresenter<T, H, Adapter, V, R>(view, repository), MvpBaseContract.RecyclerPresenter<H> {

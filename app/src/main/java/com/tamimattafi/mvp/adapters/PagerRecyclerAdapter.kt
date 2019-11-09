@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.tamimattafi.mvp.MvpBaseContract.*
 
-abstract class PagerRecyclerAdapter<H : Holder>(view: ListenerView<H, Adapter>) : RecyclerAdapter<H>(view), PagerAdapter {
+abstract class PagerRecyclerAdapter<H : Holder>(view: ListenerView<H>) : RecyclerAdapter<H, PagerAdapter>(view), PagerAdapter {
 
     abstract fun getLoadingErrorHolder(): ViewHolder
     abstract fun getLoadingMoreHolder(): ViewHolder

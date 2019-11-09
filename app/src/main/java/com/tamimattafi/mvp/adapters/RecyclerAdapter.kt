@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.tamimattafi.mvp.MvpBaseContract.*
 
-abstract class RecyclerAdapter<H : Holder>(private val view: ListenerView<H, Adapter>) :
+abstract class RecyclerAdapter<H : Holder, A: Adapter>(private val view: ListenerView<H>) :
     RecyclerView.Adapter<ViewHolder>(), Adapter {
 
     override var isLoading: Boolean = false

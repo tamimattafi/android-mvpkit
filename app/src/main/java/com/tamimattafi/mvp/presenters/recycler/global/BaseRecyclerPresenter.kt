@@ -4,7 +4,7 @@ import com.tamimattafi.mvp.MvpBaseContract.*
 import com.tamimattafi.mvp.presenters.BasePresenter
 import com.tamimattafi.mvp.presenters.PresenterConstants
 
-abstract class BaseRecyclerPresenter<T, H : Holder,A: Adapter, V : ListenerView<H, A>, R : Repository>(
+abstract class BaseRecyclerPresenter<T, H : Holder,A: Adapter, V : ListenerView<H>, R : Repository>(
     view: V,
     repository: R
 ) : BasePresenter<V, R>(view, repository), RecyclerPresenter<H> {

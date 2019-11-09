@@ -3,14 +3,14 @@ package com.tamimattafi.mvp.presenters.recycler
 import com.tamimattafi.mvp.MvpBaseContract.*
 import com.tamimattafi.mvp.presenters.recycler.global.BaseRecyclerPresenter
 
-abstract class PagerRecyclerPresenter<T, H : Holder, V : ListenerView<H, PagerAdapter>, R : PagerListRepository<T>>(view: V, repository: R) :
+abstract class PagerRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : PagerListRepository<T>>(view: V, repository: R) :
     BaseRecyclerPresenter<T, H, PagerAdapter, V, R>(view, repository) {
 
     private var page: Int = 1
 
     override fun loadRepositoryData() {
 
-        with(view.getAdapter()) {
+        with(view.getAdapter() as PagerAdapter) {
             repository.getDataList(page).addSuccessListener { data ->
                 handleData(data)
             }.addFailureListener { message ->

@@ -62,9 +62,9 @@ interface MvpBaseContract {
         fun showMessage(message: String)
     }
 
-    interface ListenerView<HOLDER : Holder, ADAPTER: Adapter> : View, AdapterListener<HOLDER> {
+    interface ListenerView<HOLDER : Holder> : View, AdapterListener<HOLDER> {
         fun bindHolder(holder: HOLDER)
-        fun getAdapter(): ADAPTER
+        fun getAdapter(): Adapter
     }
 
     interface Adapter {
