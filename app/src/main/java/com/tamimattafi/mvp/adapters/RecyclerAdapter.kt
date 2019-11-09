@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.tamimattafi.mvp.MvpBaseContract.*
 
-abstract class RecyclerAdapter<H : Holder>(private val view: ListenerView<H>) :
+abstract class RecyclerAdapter<H : Holder>(private val view: ListenerView<H, Adapter>) :
     RecyclerView.Adapter<ViewHolder>(), Adapter {
 
     override var isLoading: Boolean = false
@@ -14,13 +14,13 @@ abstract class RecyclerAdapter<H : Holder>(private val view: ListenerView<H>) :
             notifyDataSetChanged()
         }
 
-    private var dataCount: Int = 0
+    protected var dataCount: Int = 0
 
     abstract fun getEmptyHolder(parent: ViewGroup): ViewHolder
     abstract fun getItemHolder(parent: ViewGroup): ViewHolder
     abstract fun getLoadingHolder(parent: ViewGroup): ViewHolder
 
-    override fun setDataCount(dataCount: Int) {
+    override fun setTotalDataCount(dataCount: Int) {
         this.dataCount = dataCount
         notifyDataSetChanged()
     }

@@ -1,14 +1,13 @@
 package com.tamimattafi.mvp.presenters.recycler.global
 
-import com.tamimattafi.mvp.MvpBaseContract
 import com.tamimattafi.mvp.MvpBaseContract.*
 import com.tamimattafi.mvp.presenters.BasePresenter
 import com.tamimattafi.mvp.presenters.PresenterConstants
 
-abstract class BaseRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : Repository>(
+abstract class BaseRecyclerPresenter<T, H : Holder,A: Adapter, V : ListenerView<H, A>, R : Repository>(
     view: V,
     repository: R
-) : BasePresenter<V, R>(view, repository), MvpBaseContract.RecyclerPresenter<H> {
+) : BasePresenter<V, R>(view, repository), RecyclerPresenter<H> {
 
     protected val data: ArrayList<T> = ArrayList()
     abstract fun loadRepositoryData()
@@ -26,7 +25,7 @@ abstract class BaseRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : Rep
         this.data.clear()
 
         view.apply {
-            getAdapter().setDataCount(0)
+            getAdapter().setTotalDataCount(0)
             showMessage(message)
         }
     }
@@ -37,7 +36,7 @@ abstract class BaseRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : Rep
             addAll(data)
         }
 
-        view.getAdapter().setDataCount(data.size)
+        view.getAdapter().setTotalDataCount(data.size)
     }
 
     override fun refresh() {

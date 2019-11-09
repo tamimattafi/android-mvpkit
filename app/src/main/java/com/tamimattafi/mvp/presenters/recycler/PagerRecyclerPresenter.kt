@@ -3,8 +3,8 @@ package com.tamimattafi.mvp.presenters.recycler
 import com.tamimattafi.mvp.MvpBaseContract.*
 import com.tamimattafi.mvp.presenters.recycler.global.BaseRecyclerPresenter
 
-abstract class PagerRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : PagerListRepository<T>>(view: V, repository: R) :
-    BaseRecyclerPresenter<T, H, V, R>(view, repository) {
+abstract class PagerRecyclerPresenter<T, H : Holder, V : ListenerView<H, PagerAdapter>, R : PagerListRepository<T>>(view: V, repository: R) :
+    BaseRecyclerPresenter<T, H, PagerAdapter, V, R>(view, repository) {
 
     private var page: Int = 1
 
@@ -14,6 +14,7 @@ abstract class PagerRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : Pa
             repository.getDataList(page).addSuccessListener { data ->
                 handleData(data)
             }.addFailureListener { message ->
+                hasPagingError = true
                 handleError(message)
             }.addCompleteListener {
                 isLoading = false
@@ -25,7 +26,7 @@ abstract class PagerRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : Pa
     override fun handleData(data: ArrayList<T>) {
         this.data.apply {
             addAll(data)
-            view.getAdapter().setDataCount(size)
+            view.getAdapter().setTotalDataCount(size)
             page++
         }
     }

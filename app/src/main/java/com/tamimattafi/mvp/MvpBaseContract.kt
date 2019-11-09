@@ -62,14 +62,18 @@ interface MvpBaseContract {
         fun showMessage(message: String)
     }
 
-    interface ListenerView<HOLDER : Holder> : View, AdapterListener<HOLDER> {
+    interface ListenerView<HOLDER : Holder, ADAPTER: Adapter> : View, AdapterListener<HOLDER> {
         fun bindHolder(holder: HOLDER)
-        fun getAdapter(): Adapter
+        fun getAdapter(): ADAPTER
     }
 
     interface Adapter {
         var isLoading: Boolean
-        fun setDataCount(dataCount: Int)
+        fun setTotalDataCount(dataCount: Int)
+    }
+
+    interface PagerAdapter : Adapter {
+        var hasPagingError: Boolean
     }
 
     interface AdapterListener<HOLDER : Holder> {
