@@ -6,8 +6,8 @@ import com.tamimattafi.mvp.MvpBaseContract.*
 
 abstract class PagerRecyclerAdapter<H : Holder>(view: ListenerView<H>) : RecyclerAdapter<H, PagerAdapter>(view), PagerAdapter {
 
-    abstract fun getLoadingErrorHolder(): ViewHolder
-    abstract fun getLoadingMoreHolder(): ViewHolder
+    abstract fun getLoadingErrorHolder(parent: ViewGroup): ViewHolder
+    abstract fun getLoadingMoreHolder(parent: ViewGroup): ViewHolder
 
     override var hasPagingError: Boolean = false
         set(value) {
@@ -24,8 +24,8 @@ abstract class PagerRecyclerAdapter<H : Holder>(view: ListenerView<H>) : Recycle
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
         = when (viewType) {
-            TYPE_LOADING_MORE -> getLoadingMoreHolder()
-            TYPE_LOADING_ERROR -> getLoadingErrorHolder()
+            TYPE_LOADING_MORE -> getLoadingMoreHolder(parent)
+            TYPE_LOADING_ERROR -> getLoadingErrorHolder(parent)
             else -> super.onCreateViewHolder(parent, viewType)
         }
 
