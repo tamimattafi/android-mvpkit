@@ -52,10 +52,13 @@ interface MvpBaseContract {
         fun refresh()
     }
 
-    interface Holder {
+    interface Holder : ListenerHolder {
         var listPosition: Int
-        fun setHolderClickListener(onClick: () -> Unit): Holder
-        fun setHolderActionListener(onAction: (action: Int) -> Unit): Holder
+    }
+
+    interface ListenerHolder {
+        fun setHolderClickListener(onClick: () -> Unit): ListenerHolder
+        fun setHolderActionListener(onAction: (action: Int) -> Unit): ListenerHolder
     }
 
     interface View {

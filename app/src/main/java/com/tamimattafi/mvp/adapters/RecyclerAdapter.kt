@@ -38,26 +38,27 @@ abstract class RecyclerAdapter<H : Holder, A: Adapter>(private val view: Listene
     @Suppress("UNCHECKED_CAST")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        (holder as? Holder)?.apply {
-            listPosition = position
-
+        (holder as? ListenerHolder)?.apply {
             setHolderActionListener { action ->
                 view.onHolderAction(null, action)
             }
-
         }
 
-        prepareMainHolder(holder as? H ?: return)
+        (holder as? H)?.apply {
+            listPosition = getListPosition(position)
+            prepare()
+        }
+
     }
 
-    private fun prepareMainHolder(holder: H) {
+    private fun H.prepare() {
         with(view) {
-            holder.setHolderClickListener {
-                onHolderClick(holder)
+            setHolderClickListener {
+                onHolderClick(this@prepare)
             }.setHolderActionListener { action ->
-                onHolderAction(holder, action)
+                onHolderAction(this@prepare, action)
             }
-            bindHolder(holder)
+            bindHolder(this@prepare)
         }
     }
 
@@ -74,6 +75,8 @@ abstract class RecyclerAdapter<H : Holder, A: Adapter>(private val view: Listene
     open fun getEmptyCondition(position: Int): Boolean = position == 0 && dataCount == 0
 
     open fun getItemCondition(position: Int): Boolean = position > 0
+
+    open fun getListPosition(adapterPosition: Int): Int = adapterPosition
 
     companion object {
         const val TYPE_ITEM = 0
