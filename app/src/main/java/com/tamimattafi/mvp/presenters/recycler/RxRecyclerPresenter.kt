@@ -10,7 +10,7 @@ import io.reactivex.schedulers.Schedulers
 abstract class RxRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : RxListRepository<T>>(
     view: V,
     repository: R
-) : BaseRecyclerPresenter<T, H, Adapter, V, R>(view, repository), MvpBaseContract.RecyclerPresenter<H> {
+) : BaseRecyclerPresenter<T, H, V, R>(view, repository), MvpBaseContract.RecyclerPresenter<H> {
 
     private var disposable: Disposable? = null
 
