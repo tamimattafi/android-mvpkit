@@ -32,7 +32,10 @@ abstract class PagerRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : Pa
     override fun handleData(data: ArrayList<T>) {
         this.data.apply {
             addAll(data)
-            view.getAdapter().setTotalDataCount(size)
+            (view.getAdapter() as PagerAdapter).apply {
+                hasPagingError = false
+                setTotalDataCount(size)
+            }
             page++
         }
     }
