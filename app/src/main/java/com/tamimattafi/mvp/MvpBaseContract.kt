@@ -1,5 +1,6 @@
 package com.tamimattafi.mvp
 
+import io.reactivex.Flowable
 
 
 interface MvpBaseContract {
@@ -9,7 +10,19 @@ interface MvpBaseContract {
     }
 
     interface ListRepository<T> : Repository {
-        fun getData(): Callback<ArrayList<T>>
+        fun getDataList(): Callback<ArrayList<T>>
+    }
+
+    interface RxListRepository<T> : Repository {
+        fun getDataList(): Flowable<List<T>>
+    }
+
+    interface PagerListRepository<T> : Repository {
+        fun getDataList(page: Int): Callback<ArrayList<T>>
+    }
+
+    interface ActionCallback<T> : Callback<T>, NotificationCallback<T> {
+        fun setAction(action: (callback: ActionCallback<T>) -> Unit): Callback<T>
     }
 
     interface Callback<T> {
@@ -18,10 +31,6 @@ interface MvpBaseContract {
         fun addCompleteListener(onComplete: () -> Unit): Callback<T>
         fun start()
         fun cancel()
-    }
-
-    interface ActionCallback<T> : Callback<T>, NotificationCallback<T> {
-        fun setAction(action: (callback: ActionCallback<T>) -> Unit): Callback<T>
     }
 
     interface NotificationCallback<T> {

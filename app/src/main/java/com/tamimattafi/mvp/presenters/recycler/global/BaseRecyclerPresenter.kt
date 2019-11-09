@@ -1,40 +1,25 @@
-package com.tamimattafi.mvp.presenters
+package com.tamimattafi.mvp.presenters.recycler.global
 
 import com.tamimattafi.mvp.MvpBaseContract
 import com.tamimattafi.mvp.MvpBaseContract.*
+import com.tamimattafi.mvp.presenters.BasePresenter
+import com.tamimattafi.mvp.presenters.PresenterConstants
 
-abstract class RecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : ListRepository<T>>(
+abstract class BaseRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : Repository>(
     view: V,
     repository: R
 ) : BasePresenter<V, R>(view, repository), MvpBaseContract.RecyclerPresenter<H> {
 
     protected val data: ArrayList<T> = ArrayList()
+    abstract fun loadRepositoryData()
 
     override fun loadData() {
         view.apply {
-
             if (!getAdapter().isLoading) {
+                getAdapter().isLoading = true
                 loadRepositoryData()
             } else showMessage(PresenterConstants.LOAD_DATA_ERROR)
-
         }
-    }
-
-    private fun loadRepositoryData() {
-
-        view.getAdapter().apply {
-            isLoading = true
-            setDataCount(0)
-        }
-
-        repository.getData().addSuccessListener { data ->
-            handleData(data)
-        }.addFailureListener { message ->
-            handleError(message)
-        }.addCompleteListener {
-            view.getAdapter().isLoading = false
-        }.start()
-
     }
 
     open fun handleError(message: String) {
