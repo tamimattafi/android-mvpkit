@@ -50,3 +50,10 @@ dependencies {
     implementation "androidx.room:room-rxjava2:$room_version"
 
 }
+
+configurations {
+    all {
+        exclude module: 'httpclient'
+        exclude module: 'commons-logging'
+    }
+}
