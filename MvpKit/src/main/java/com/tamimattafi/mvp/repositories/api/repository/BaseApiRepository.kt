@@ -1,10 +1,13 @@
 package com.tamimattafi.mvp.repositories.api.repository
 
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.tamimattafi.mvp.MvpBaseContract.Callback
 import com.tamimattafi.mvp.MvpBaseContract.NotificationCallback
 import com.tamimattafi.mvp.repositories.api.callback.ApiCallback
 import com.tamimattafi.mvp.repositories.global.BaseRepository
 import com.tamimattafi.mvp.repositories.global.RepositoryConstants
+import okhttp3.ResponseBody
 import retrofit2.Call
 
 open class BaseApiRepository : BaseRepository() {
@@ -33,6 +36,17 @@ open class BaseApiRepository : BaseRepository() {
             = handleCustomBodyCall(call) { notification, data ->
                 notification.notifySuccess(data)
             }
+
+
+    fun <T> handleResponseBody(call: Call<ResponseBody>): Callback<T> =
+        handleCustomBodyCall(call) { notification, data ->
+            notification.notifySuccess(
+                Gson().fromJson(
+                    data.string(),
+                    object : TypeToken<T>() {}.type
+                )
+            )
+        }
 
 
     private fun <T, R> Call<T>.handleCallback(notification: NotificationCallback<R>, onSuccess: (data: T?) -> Unit): ApiCallback<T, R>
