@@ -22,17 +22,25 @@ Before we start, I must admit that I might have some gaps or wrong understanding
 
 - **VIEW** - This layer is everything that concerns the UI and what the user interacts with. The **View** acts like a slave to the **Presenter**, it does everything the **Presenter** says, and can't do anything without **Presenter's** permission (well maybe there are some cases where the **View** can do stuff without depending on the **Presenter** specially if the action concerns the UI only such as triggering an animation after button click or navigating back on back press).
 
-  - The **View** mustn't contain any logic, what I mean by logic can refer to binary, or logical operations, mapping, parsing...
-  - The **View** should receive and send only basic language data types such as `Strings` and `Integers`, it rarely requires to transfer an `Object`.
-  - The **View** mustn't know anything about the **Model** layer.
+   ![](https://drive.google.com/uc?export=download&id=1XfJxyIs-yTh8YI7u8UIxEv_oaQHQDswF)
 
   
 
-![](https://drive.google.com/uc?export=download&id=1XfJxyIs-yTh8YI7u8UIxEv_oaQHQDswF)
+  - The **View** mustn't contain any logic, what I mean by logic can refer to binary, or logical operations, mapping, parsing...
 
+  - The **View** should receive and send only basic language data types such as `Strings` and `Integers`, it rarely requires to transfer an `Object`.
 
+  - The **View** mustn't know anything about the **Model** layer.
+
+    
 
 - **PRESENTER** - This layer acts like a bridge between the **View** and the **Model** layers. It handles all the logic that concerns presentation such as binding. it usually handles simple binary and mathematical operations related to the **View** layer such as disallowing back presses in some conditions, form validations, mapping...
+
+  
+
+  ![](https://drive.google.com/uc?export=download&id=1mgnFoiI7LMPLawYI1fFoqolfrxZeX_U6)
+
+  
 
   - The **Presenter** mustn't contain any business logic, what I mean by business can refer to data parsing, database queries, API calls...
   - The **Presenter** mustn't depend on any View related components, specially a Context. If your **Presenter** requires a `Context`, you're doing it wrong.
@@ -44,17 +52,13 @@ Before we start, I must admit that I might have some gaps or wrong understanding
 
 
 
-![](https://drive.google.com/uc?export=download&id=1mgnFoiI7LMPLawYI1fFoqolfrxZeX_U6)
-
-
-
 - **MODEL** - Some people might refer to the **Model** as `DataObjects` and `Entities`, while some others, including this library's concept, claim that the **Model** layer is everything that concerns business logic such as querying the database, making http calls, parsing, cashing... 
 
   Usually a **Repository** or/and an **Interactor** are implemented in order to handle this logic and deliver the result to the **Presenter**.
 
+  
 
-
-![](https://drive.google.com/uc?export=download&id=1xpRXsfI2VKukRuu_eJj1tPL9DcDCchS-)
+  ![](https://drive.google.com/uc?export=download&id=1xpRXsfI2VKukRuu_eJj1tPL9DcDCchS-)
 
 
 
@@ -72,6 +76,12 @@ As you see in the picture above, there are two representations of each component
 
   we have a **ProfileScreen**. It has a **ProfilePresenter** that shouldn't communicate directly with **ProfileView** but should have some kind of contract between them. Let's create one and call it for example **ProfileContract**. It contains two contract interfaces, **View** and **Presenter**. Each component should implement its interface. These components must not be dependent on their concrete classes but on the implemented interfaces, so they will only expose what's declared in the contract.
 
+  
+
+  ![](https://drive.google.com/uc?export=download&id=1ZzF2OBI8WIivRLBdyJgPb1n54TYV1Mko)
+
+  
+
   - Benefits of this approach is the ability to change concrete classes without breaking the code.
 
   > A noble Presenter once said: " Presenters should not care about who you are and where you come from, if you implement the contract, we're good to go!
@@ -82,11 +92,7 @@ As you see in the picture above, there are two representations of each component
   - It also helps binding dependencies in an elegant way using Dependency Injection.
   - Contracts are not only implemented between the **View** and the **Presenter**, they can also be implemented by a **Repository**, an **Interactor**...
 
-
-
-![](https://drive.google.com/uc?export=download&id=1ZzF2OBI8WIivRLBdyJgPb1n54TYV1Mko)
-
-
+  
 
 - **INTERACTOR** - Interactors are used usually when you have more than one data source, and your app consumes this data from different sources depending on some conditions. For example we have an application that supports cashing. The **Presenter** doesn't know and doesn't care where the data should come from, it tells the **Interactor** to deliver some data and waits for the response, the **Interactor** will first try to retrieve fresh data from the server, if something goes wrong, the **Interactor** will switch to the local data and will deliver what the **Presenter** asked for.
 
