@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.tamimattafi.mvp.MvpBaseContract.Callback
 import com.tamimattafi.mvp.MvpBaseContract.NotificationCallback
-import com.tamimattafi.mvp.repositories.api.callback.ApiCallback
+import com.tamimattafi.mvp.repositories.api.callback.RetrofitCallback
 import com.tamimattafi.mvp.repositories.global.BaseRepository
 import com.tamimattafi.mvp.repositories.global.RepositoryConstants
 import okhttp3.ResponseBody
@@ -12,7 +12,7 @@ import retrofit2.Call
 
 open class BaseApiRepository : BaseRepository() {
 
-    private val calls: ArrayList<Pair<ApiCallback<*, *>, Call<*>>> = ArrayList()
+    private val calls: ArrayList<Pair<RetrofitCallback<*, *>, Call<*>>> = ArrayList()
 
     fun handleActionCall(call: Call<Void>): Callback<Boolean>
             = createCallback { notification ->
@@ -49,8 +49,8 @@ open class BaseApiRepository : BaseRepository() {
         }
 
 
-    private fun <T, R> Call<T>.handleCallback(notification: NotificationCallback<R>, onSuccess: (data: T?) -> Unit): ApiCallback<T, R>
-            = ApiCallback<T, R>(notification, onSuccess).also {
+    private fun <T, R> Call<T>.handleCallback(notification: NotificationCallback<R>, onSuccess: (data: T?) -> Unit): RetrofitCallback<T, R>
+            = RetrofitCallback<T, R>(notification, onSuccess).also {
 
                 val element = Pair(it, this)
                 calls.add(element)

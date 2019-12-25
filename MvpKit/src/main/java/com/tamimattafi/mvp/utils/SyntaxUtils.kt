@@ -13,10 +13,10 @@ object SyntaxUtils {
         null
     }
 
-    fun <T> T?.tryCall(action: T.() -> Unit, condition: Boolean = true) =
-        this?.takeIf { condition }?.let {
-            tryCatch { action.invoke(it) }
-        }
+    fun <T> T?.tryCall(action: T.() -> Unit, condition: Boolean = true)
+            = this?.takeIf { condition }?.let {
+                tryCatch { action.invoke(it) }
+            }
 
 
 }

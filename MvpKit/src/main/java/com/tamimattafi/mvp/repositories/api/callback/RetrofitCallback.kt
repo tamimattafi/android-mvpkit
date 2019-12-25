@@ -2,13 +2,12 @@ package com.tamimattafi.mvp.repositories.api.callback
 
 import com.google.gson.Gson
 import com.tamimattafi.mvp.MvpBaseContract
-import com.tamimattafi.mvp.repositories.api.interactor.InteractorConstants
 import com.tamimattafi.mvp.repositories.global.RepositoryConstants
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ApiCallback<T, R>(
+class RetrofitCallback<T, R>(
     private var notification: MvpBaseContract.NotificationCallback<R>?,
     private var onSuccess: ((response: T?) -> Unit)?
 ) : Callback<T> {
@@ -25,23 +24,20 @@ class ApiCallback<T, R>(
     }
 
     override fun onResponse(call: Call<T>, response: Response<T>) {
-        with(response) {
-            if (code() == InteractorConstants.CODE_OK) {
-                onSuccess?.invoke(response.body())
-            } else {
-                val error = Gson().fromJson<Error>(
-                    response.errorBody()?.string(),
-                    Error::class.java
-                )?.message
-                    ?: InteractorConstants.getCodeMessage(code())
-                notification?.notifyFailure(error)
-            }
+        if (response.isSuccessful) {
+            onSuccess?.invoke(response.body())
+        } else {
+            val error = Gson().fromJson<Error>(
+                response.errorBody()?.string(),
+                Error::class.java
+            )?.message ?: response.message()
+            notification?.notifyFailure(error)
         }
 
         notifyComplete()
     }
 
-    fun addOnCompleteListener(onComplete: () -> Unit): ApiCallback<T, R> =
+    fun addOnCompleteListener(onComplete: () -> Unit): RetrofitCallback<T, R> =
         this.also { it.onComplete.add(onComplete) }
 
 

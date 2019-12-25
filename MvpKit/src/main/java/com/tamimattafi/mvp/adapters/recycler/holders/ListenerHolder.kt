@@ -1,4 +1,4 @@
-package com.tamimattafi.mvp.adapters.holders
+package com.tamimattafi.mvp.adapters.recycler.holders
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

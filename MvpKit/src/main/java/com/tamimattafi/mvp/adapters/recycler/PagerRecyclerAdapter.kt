@@ -1,4 +1,4 @@
-package com.tamimattafi.mvp.adapters
+package com.tamimattafi.mvp.adapters.recycler
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.ViewHolder

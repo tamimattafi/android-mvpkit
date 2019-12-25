@@ -1,9 +1,10 @@
-package com.tamimattafi.mvp.adapters
+package com.tamimattafi.mvp.adapters.recycler
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.tamimattafi.mvp.MvpBaseContract.*
+import com.tamimattafi.mvp.adapters.AdapterConstants
 
 abstract class RecyclerAdapter<H : Holder>(private val view: ListenerView<H>) :
     RecyclerView.Adapter<ViewHolder>(), Adapter {

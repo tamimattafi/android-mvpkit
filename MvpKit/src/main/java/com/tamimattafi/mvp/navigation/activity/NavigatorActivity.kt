@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.tamimattafi.mvp.navigation.fragment.NavigationFragment
 import com.tamimattafi.mvp.navigation.global.NavigationContract.*
 
-abstract class NavigationActivity : BaseActivity(), Manager {
+abstract class NavigatorActivity : BaseActivity(), Navigator {
 
     abstract val rootId: Int
 

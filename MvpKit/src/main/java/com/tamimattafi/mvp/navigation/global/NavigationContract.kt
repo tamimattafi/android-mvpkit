@@ -4,7 +4,7 @@ import com.tamimattafi.mvp.navigation.fragment.NavigationFragment
 
 interface NavigationContract {
 
-    interface Manager {
+    interface Navigator {
         fun attachBaseFragment(fragment: NavigationFragment)
         fun attachFragment(fragment: NavigationFragment)
         fun requestBackPress()
@@ -12,7 +12,7 @@ interface NavigationContract {
 
     interface Fragment {
         var name: String
-        fun attachNavigationManager(navigationManager: Manager)
+        fun attachNavigationManager(navigator: Navigator)
     }
 
     interface MvpFragment<P> {
