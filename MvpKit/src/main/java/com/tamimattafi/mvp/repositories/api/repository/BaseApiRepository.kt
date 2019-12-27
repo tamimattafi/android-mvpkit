@@ -62,8 +62,8 @@ open class BaseApiRepository : BaseRepository() {
 
                 }
 
-    override fun stopListening() {
-        super.stopListening()
+    override fun release() {
+        super.release()
 
         calls.forEach {
             with(it) {

@@ -7,7 +7,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-abstract class RxRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : RxListRepository<T>>(
+abstract class RxRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : RxListDataSource<T>>(
     view: V,
     repository: R
 ) : BaseRecyclerPresenter<T, H, V, R>(view, repository), MvpBaseContract.RecyclerPresenter<H> {
@@ -19,7 +19,7 @@ abstract class RxRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : RxLis
             with(getAdapter()) {
                 disposable?.dispose()
                 setTotalDataCount(0)
-                disposable = repository.getDataList()
+                disposable = dataSource.getDataList()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnNext { data ->

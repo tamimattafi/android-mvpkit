@@ -91,7 +91,6 @@ As you see in the picture above, there are two representations of each component
   - Also, your code readability and flexibility increases. Your code will be clear and each component will exposes its contract's behaviour only, so if you want to add or remove something, you first do that in the contract and your IDE, (hopefully) will notify you of contract abusing in your code so you can take action faster and more effectively.
   - It also helps binding dependencies in an elegant way using Dependency Injection.
   - Contracts are not only implemented between the **View** and the **Presenter**, they can also be implemented by a **Repository**, an **Interactor**...
-
   
 
 - **INTERACTOR** - Interactors are used usually when you have more than one data source, and your app consumes this data from different sources depending on some conditions. For example we have an application that supports cashing. The **Presenter** doesn't know and doesn't care where the data should come from, it tells the **Interactor** to deliver some data and waits for the response, the **Interactor** will first try to retrieve fresh data from the server, if something goes wrong, the **Interactor** will switch to the local data and will deliver what the **Presenter** asked for.

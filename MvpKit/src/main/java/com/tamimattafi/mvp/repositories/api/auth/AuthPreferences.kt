@@ -15,7 +15,6 @@ class AuthPreferences<T : Token>(private val sharedPreferences: SharedPreference
 
     override fun isLoggedIn(): Boolean = sharedPreferences.getBoolean(LOGIN_KEY, false)
 
-
     override fun setToken(token: T?) = with(sharedPreferences.edit()) {
         putString(TOKEN_KEY, Gson().toJson(token))
         apply()

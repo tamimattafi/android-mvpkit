@@ -24,8 +24,7 @@ class ActionCallback<T> : MvpBaseContract.ActionCallback<T> {
         this.also { it.action = action }
 
     override fun start() {
-        action?.invoke(this)
-            ?: onFailure.forEach { it.invoke(CallbackConstants.ACTION_ERROR) }
+        action?.invoke(this) ?: onFailure.forEach { it.invoke(CallbackConstants.ACTION_ERROR) }
     }
 
     override fun notifySuccess(data: T) {

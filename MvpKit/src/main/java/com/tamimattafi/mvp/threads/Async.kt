@@ -4,7 +4,7 @@ import android.os.AsyncTask
 import android.util.Log
 import com.tamimattafi.mvp.MvpBaseContract
 
-abstract class Async<PARAM, RESULT>(private val callback: MvpBaseContract.NotificationCallback<RESULT>) :
+abstract class Async<PARAM, RESULT>(protected val callback: MvpBaseContract.NotificationCallback<RESULT>) :
     AsyncTask<PARAM, Int, RESULT>() {
 
     abstract fun doWork(param: PARAM): RESULT

@@ -3,7 +3,7 @@ package com.tamimattafi.mvp.presenters.recycler
 import com.tamimattafi.mvp.MvpBaseContract.*
 import com.tamimattafi.mvp.presenters.recycler.global.BaseRecyclerPresenter
 
-abstract class PagerRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : PagerListRepository<T>>(view: V, repository: R) :
+abstract class PagerRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : PagerListDataSource<T>>(view: V, repository: R) :
     BaseRecyclerPresenter<T, H, V, R>(view, repository) {
 
     protected var page: Int = 1
@@ -12,7 +12,7 @@ abstract class PagerRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : Pa
 
         view.tryCall {
             with(getAdapter()) {
-                repository.getDataList(page).addSuccessListener { data ->
+                dataSource.getDataList(page).addSuccessListener { data ->
                     handleData(data)
                 }.addFailureListener { message ->
                     handleError(message)

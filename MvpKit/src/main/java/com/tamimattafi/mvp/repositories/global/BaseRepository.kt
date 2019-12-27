@@ -4,11 +4,11 @@ import com.tamimattafi.mvp.MvpBaseContract.*
 import com.tamimattafi.mvp.repositories.callbacks.ActionCallback
 
 
-abstract class BaseRepository : Repository {
+abstract class BaseRepository : DataSource {
 
     private val callbacks: ArrayList<Callback<*>> by lazy { ArrayList<Callback<*>>() }
 
-    override fun stopListening() {
+    override fun release() {
         callbacks.forEach {
             it.cancel()
         }

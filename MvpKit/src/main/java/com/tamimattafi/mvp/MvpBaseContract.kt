@@ -6,19 +6,19 @@ import io.reactivex.Flowable
 
 interface MvpBaseContract {
 
-    interface Repository {
-        fun stopListening()
+    interface DataSource {
+        fun release()
     }
 
-    interface ListRepository<T> : Repository {
+    interface ListDataSource<T> : DataSource {
         fun getDataList(): Callback<ArrayList<T>>
     }
 
-    interface RxListRepository<T> : Repository {
+    interface RxListDataSource<T> : DataSource {
         fun getDataList(): Flowable<List<T>>
     }
 
-    interface PagerListRepository<T> : Repository {
+    interface PagerListDataSource<T> : DataSource {
         fun getDataList(page: Int): Callback<ArrayList<T>>
     }
 
@@ -95,7 +95,7 @@ interface MvpBaseContract {
         val value: String
     }
 
-    interface Database<T> {
+    interface DatabaseRepository<T> : DataSource {
         fun getRxList(query: SupportSQLiteQuery): Flowable<List<T>>
         fun getRxItem(query: SupportSQLiteQuery): Flowable<T>
         fun getList(query: SupportSQLiteQuery): Callback<ArrayList<T>>

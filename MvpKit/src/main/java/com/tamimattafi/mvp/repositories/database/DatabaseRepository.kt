@@ -2,7 +2,7 @@ package com.tamimattafi.mvp.repositories.database
 
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.tamimattafi.mvp.MvpBaseContract.Callback
-import com.tamimattafi.mvp.MvpBaseContract.Database
+import com.tamimattafi.mvp.MvpBaseContract.DatabaseRepository
 import com.tamimattafi.mvp.repositories.database.async.ItemActionAsync
 import com.tamimattafi.mvp.repositories.database.async.ItemActionAsync.Companion.DELETE
 import com.tamimattafi.mvp.repositories.database.async.ItemActionAsync.Companion.INSERT
@@ -15,7 +15,8 @@ import com.tamimattafi.mvp.repositories.global.BaseRepository
 import io.reactivex.Flowable
 
 
-open class DatabaseRepository<T>(private val dao: BaseDao<T>) : BaseRepository(), Database<T> {
+open class DatabaseRepository<T>(private val dao: BaseDao<T>) : BaseRepository(),
+    DatabaseRepository<T> {
 
     override fun getRxList(query: SupportSQLiteQuery): Flowable<List<T>> = dao.getRxList(query)
 
@@ -44,6 +45,5 @@ open class DatabaseRepository<T>(private val dao: BaseDao<T>) : BaseRepository()
     override fun insertAll(items: ArrayList<T>): Callback<List<Long>> = createCallback {
         ListActionAsync(it, dao).execute(Pair(INSERT_ALL, items))
     }
-
 
 }

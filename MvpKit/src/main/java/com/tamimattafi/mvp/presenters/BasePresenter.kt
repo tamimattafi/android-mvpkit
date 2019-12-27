@@ -4,9 +4,9 @@ import com.tamimattafi.mvp.MvpBaseContract.*
 
 import com.tamimattafi.mvp.utils.SyntaxUtils.tryCall
 
-abstract class BasePresenter<V : View, R : Repository>(
+abstract class BasePresenter<V : View, D : DataSource>(
     protected var view: V?,
-    protected val repository: R
+    protected val dataSource: D
 ) : Presenter {
 
     private var isViewDestroyed: Boolean = false
@@ -20,7 +20,7 @@ abstract class BasePresenter<V : View, R : Repository>(
     }
 
     override fun onDestroy() {
-        repository.stopListening()
+        dataSource.release()
         view = null
     }
 
