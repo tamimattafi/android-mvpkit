@@ -6,6 +6,7 @@ import com.tamimattafi.mvp.repositories.database.QueryBuilder.Expressions.AND
 import com.tamimattafi.mvp.repositories.database.QueryBuilder.Expressions.DELETE
 import com.tamimattafi.mvp.repositories.database.QueryBuilder.Expressions.FROM
 import com.tamimattafi.mvp.repositories.database.QueryBuilder.Expressions.INNER_JOIN
+import com.tamimattafi.mvp.repositories.database.QueryBuilder.Expressions.IS_NOT_NULL
 import com.tamimattafi.mvp.repositories.database.QueryBuilder.Expressions.IS_NULL
 import com.tamimattafi.mvp.repositories.database.QueryBuilder.Expressions.LIKE
 import com.tamimattafi.mvp.repositories.database.QueryBuilder.Expressions.LIMIT
@@ -43,9 +44,15 @@ open class QueryBuilder(var rawQuery: String = "") {
 
     fun whereIsNull(field: String): QueryBuilder = nullClause(WHERE, field)
 
+    fun whereIsNotNull(field: String): QueryBuilder = notNullClause(WHERE, field)
+
     fun andIsNull(field: String): QueryBuilder = nullClause(AND, field)
 
+    fun andIsNotNull(field: String): QueryBuilder = notNullClause(AND, field)
+
     fun orIsNull(field: String): QueryBuilder = nullClause(OR, field)
+
+    fun orIsNotNull(field: String): QueryBuilder = notNullClause(OR, field)
 
     fun whereIn(field: String, values: List<Any>): QueryBuilder = whereClause(WHERE, field, IN, values.joinToString(prefix = "(", separator = ",", postfix = ")"))
 
@@ -58,11 +65,19 @@ open class QueryBuilder(var rawQuery: String = "") {
     fun nullClause(expression: String, field: String): QueryBuilder
             = addToRawQuery { "$expression $field $IS_NULL" }
 
-    fun addToRawQuery(query: () -> String): QueryBuilder
+    fun notNullClause(expression: String, field: String): QueryBuilder
+            = addToRawQuery { "$expression $field $IS_NOT_NULL" }
+
+    fun custom(rawQuery: String): QueryBuilder
+            = addToRawQuery { rawQuery }
+
+    protected fun addToRawQuery(query: () -> String): QueryBuilder
             = this.also { this.rawQuery = StringBuilder().append(this.rawQuery).append(query.invoke()).append(" ").toString() }
 
     fun build(): SimpleSQLiteQuery
         = SimpleSQLiteQuery(rawQuery)
+
+
 
     object Direction {
         const val ASCENDING = "ASC"
@@ -94,6 +109,7 @@ open class QueryBuilder(var rawQuery: String = "") {
         const val INNER_JOIN = "INNER JOIN"
         const val ON = "ON"
         const val IS_NULL = "IS NULL"
+        const val IS_NOT_NULL = "IS NOT NULL"
     }
 
 }
