@@ -1,2 +1,2 @@
-include ':MvpKit'
+include ':kit'
 rootProject.name='mvp'
