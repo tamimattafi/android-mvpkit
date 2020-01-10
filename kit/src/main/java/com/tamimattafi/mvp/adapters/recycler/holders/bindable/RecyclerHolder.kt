@@ -4,7 +4,7 @@ import android.view.View
 import com.tamimattafi.mvp.MvpBaseContract
 import com.tamimattafi.mvp.adapters.recycler.holders.bindable.ListenerHolder
 
-open class RecyclerHolder(itemView: View) : SimpleHolder(itemView),
+open class RecyclerHolder(itemView: View) : ListenerHolder(itemView),
     MvpBaseContract.Holder {
     override var listPosition: Int = -1
 }
