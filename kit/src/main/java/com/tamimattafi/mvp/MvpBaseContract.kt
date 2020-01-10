@@ -70,14 +70,18 @@ interface MvpBaseContract {
         fun getAdapter(): Adapter
     }
 
-    interface Adapter {
-        var isLoading: Boolean
-        fun setTotalDataCount(dataCount: Int)
+    interface PagerListenerView<HOLDER : Holder> : ListenerView<HOLDER> {
+        override fun getAdapter(): PagerAdapter
     }
 
-    interface PagerAdapter : Adapter {
-        var hasPagingError: Boolean
+    interface Adapter {
+        var isLoading: Boolean
+        var hasError: Boolean
+        fun setTotalDataCount(dataCount: Int)
+        fun notifyChanges()
     }
+
+    interface PagerAdapter : Adapter
 
     interface AdapterListener<HOLDER : Holder> {
         fun onHolderClick(holder: HOLDER)

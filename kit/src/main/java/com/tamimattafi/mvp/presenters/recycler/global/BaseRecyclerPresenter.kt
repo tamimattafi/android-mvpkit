@@ -13,9 +13,13 @@ abstract class BaseRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : Dat
 
     override fun loadData() {
         view.tryCall {
-            if (!getAdapter().isLoading) {
-                getAdapter().isLoading = true
-                loadRepositoryData()
+            getAdapter().apply {
+                if (!isLoading) {
+                    hasError = false
+                    isLoading = true
+                    notifyChanges()
+                    loadRepositoryData()
+                }
             }
         }
     }
@@ -24,7 +28,10 @@ abstract class BaseRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : Dat
         this.data.clear()
 
         view.tryCall {
-            getAdapter().setTotalDataCount(0)
+            getAdapter().apply {
+                hasError = true
+                setTotalDataCount(0)
+            }
             showMessage(message)
         }
     }
@@ -36,7 +43,10 @@ abstract class BaseRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : Dat
         }
 
         view.tryCall {
-            getAdapter().setTotalDataCount(data.size)
+            getAdapter().apply {
+                hasError = false
+                setTotalDataCount(data.size)
+            }
         }
     }
 
@@ -44,10 +54,9 @@ abstract class BaseRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : Dat
         view.tryCall {
             getAdapter().apply {
                 if (!isLoading) {
-                    isLoading = true
                     setTotalDataCount(0)
                     data.clear()
-                    loadRepositoryData()
+                    loadData()
                 }
             }
         }

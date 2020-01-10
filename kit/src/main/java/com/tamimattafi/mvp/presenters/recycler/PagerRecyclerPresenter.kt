@@ -3,10 +3,10 @@ package com.tamimattafi.mvp.presenters.recycler
 import com.tamimattafi.mvp.MvpBaseContract.*
 import com.tamimattafi.mvp.presenters.recycler.global.BaseRecyclerPresenter
 
-abstract class PagerRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : PagerListDataSource<T>>(view: V, repository: R) :
+abstract class PagerRecyclerPresenter<T, H : Holder, V : PagerListenerView<H>, R : PagerListDataSource<T>>(view: V, repository: R) :
     BaseRecyclerPresenter<T, H, V, R>(view, repository) {
 
-    protected var page: Int = 1
+    protected var page: Int = 0
 
     override fun loadRepositoryData() {
 
@@ -18,35 +18,28 @@ abstract class PagerRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : Pa
                     handleError(message)
                 }.addCompleteListener {
                     isLoading = false
+                    notifyChanges()
                 }.start()
             }
         }
 
-
-    }
-
-    override fun handleError(message: String) {
-        view.tryCall {
-            (getAdapter() as PagerAdapter).hasPagingError = true
-            showMessage(message)
-        }
     }
 
     override fun handleData(data: ArrayList<T>) {
-        this.data.apply {
-            addAll(data)
-            view.tryCall {
-                (getAdapter() as PagerAdapter).apply {
-                    hasPagingError = false
-                    setTotalDataCount(size)
-                }
+        this.data.addAll(data)
+
+        view.tryCall {
+            getAdapter().apply {
+                hasError = false
+                setTotalDataCount(data.size)
             }
-            page++
         }
+
+        page++
     }
 
     override fun refresh() {
-        page = 1
+        page = 0
         super.refresh()
     }
 
