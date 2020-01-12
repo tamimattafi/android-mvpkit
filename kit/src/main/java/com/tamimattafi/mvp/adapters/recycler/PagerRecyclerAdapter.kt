@@ -10,6 +10,18 @@ abstract class PagerRecyclerAdapter<H : Holder>(view: ListenerView<H>) : Recycle
     abstract fun getLoadingErrorHolder(parent: ViewGroup): ViewHolder
     abstract fun getLoadingMoreHolder(parent: ViewGroup): ViewHolder
 
+    override fun addNewData(dataCount: Int) {
+        if (this.dataCount > 0) {
+            val startPosition = this.dataCount - 1
+            this.dataCount += dataCount
+            notifyItemRangeInserted(startPosition, dataCount)
+            notifyItemRangeChanged(startPosition + dataCount, lastAdapterPosition)
+        } else {
+            this.dataCount = dataCount
+            notifyChanges()
+        }
+    }
+
     override fun getItemViewType(position: Int): Int
         = when {
             getLoadingMoreCondition(position) -> TYPE_LOADING_MORE

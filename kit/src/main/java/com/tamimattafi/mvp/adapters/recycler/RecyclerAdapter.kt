@@ -9,6 +9,9 @@ import com.tamimattafi.mvp.adapters.AdapterConstants
 abstract class RecyclerAdapter<H : Holder>(private val view: ListenerView<H>) :
     RecyclerView.Adapter<ViewHolder>(), Adapter {
 
+    protected val lastAdapterPosition: Int
+        get() = itemCount - 1
+
     override var isLoading: Boolean = false
     override var hasError: Boolean = false
 
@@ -25,6 +28,21 @@ abstract class RecyclerAdapter<H : Holder>(private val view: ListenerView<H>) :
 
     override fun notifyChanges() {
         notifyDataSetChanged()
+    }
+
+    override fun notifyChanges(listPosition: Int) {
+        notifyItemChanged(listPosition)
+    }
+
+    override fun notifyDelete(listPosition: Int) {
+        this.dataCount -= 1
+        if (dataCount > 0) {
+            getAdapterPosition(listPosition).let { adapterPosition ->
+                notifyItemRemoved(adapterPosition)
+                val startPosition = adapterPosition + 1
+                notifyItemRangeChanged(startPosition, lastAdapterPosition - startPosition)
+            }
+        } else notifyChanges()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
@@ -82,6 +100,8 @@ abstract class RecyclerAdapter<H : Holder>(private val view: ListenerView<H>) :
     open fun getItemCondition(position: Int): Boolean = position > 0
 
     open fun getListPosition(adapterPosition: Int): Int = adapterPosition
+
+    open fun getAdapterPosition(listPosition: Int): Int = listPosition
 
     companion object {
         const val TYPE_ITEM = 0

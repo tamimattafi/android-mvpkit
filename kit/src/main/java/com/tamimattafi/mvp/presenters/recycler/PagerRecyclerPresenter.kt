@@ -7,35 +7,41 @@ abstract class PagerRecyclerPresenter<T, H : Holder, V : PagerListenerView<H>, R
     BaseRecyclerPresenter<T, H, V, R>(view, repository) {
 
     protected var page: Int = 0
+    protected var allData: Boolean = false
 
     override fun loadRepositoryData() {
+        if (!allData) {
 
-        view.tryCall {
-            with(getAdapter()) {
-                dataSource.getDataList(page).addSuccessListener { data ->
-                    handleData(data)
-                }.addFailureListener { message ->
-                    handleError(message)
-                }.addCompleteListener {
-                    isLoading = false
-                    notifyChanges()
-                }.start()
+            view.tryCall {
+                with(getAdapter()) {
+                    dataSource.getDataList(page).addSuccessListener { data ->
+                        handleData(data)
+                    }.addFailureListener { message ->
+                        handleError(message)
+                    }.addCompleteListener {
+                        isLoading = false
+                    }.start()
+                }
             }
-        }
 
+        }
     }
 
     override fun handleData(data: ArrayList<T>) {
-        this.data.addAll(data)
+        this.allData = data.isEmpty()
 
-        view.tryCall {
-            getAdapter().apply {
-                hasError = false
-                setTotalDataCount(data.size)
+        if (!allData) {
+            this.data.addAll(data)
+
+            view.tryCall {
+                getAdapter().apply {
+                    hasError = false
+                    addNewData(data.size)
+                }
             }
-        }
 
-        page++
+            page++
+        }
     }
 
     override fun refresh() {

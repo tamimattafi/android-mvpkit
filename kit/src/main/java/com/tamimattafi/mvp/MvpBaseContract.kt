@@ -79,9 +79,13 @@ interface MvpBaseContract {
         var hasError: Boolean
         fun setTotalDataCount(dataCount: Int)
         fun notifyChanges()
+        fun notifyDelete(listPosition: Int)
+        fun notifyChanges(listPosition: Int)
     }
 
-    interface PagerAdapter : Adapter
+    interface PagerAdapter : Adapter {
+        fun addNewData(dataCount: Int)
+    }
 
     interface AdapterListener<HOLDER : Holder> {
         fun onHolderClick(holder: HOLDER)
