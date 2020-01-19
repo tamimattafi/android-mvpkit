@@ -17,7 +17,7 @@ open class BaseApiRepository : BaseRepository() {
     fun handleActionCall(call: Call<Void>): Callback<Void?>
             = createCallback { notification ->
                 call.handleCallback(notification) {
-                    notification.notifySuccess(it)
+                    notification.notifySuccess(null)
                 }
             }
 
