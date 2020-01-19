@@ -30,18 +30,17 @@ abstract class PagerRecyclerPresenter<T, H : Holder, V : PagerListenerView<H>, R
     override fun handleData(data: ArrayList<T>) {
         this.allData = data.isEmpty()
 
-        if (!allData) {
-            this.data.addAll(data)
-
-            view.tryCall {
-                getAdapter().apply {
-                    hasError = false
+        view.tryCall {
+            getAdapter().apply {
+                hasError = false
+                if (!allData) {
+                    this@PagerRecyclerPresenter.data.addAll(data)
                     addNewData(data.size)
-                }
+                    page++
+                } else notifyChanges()
             }
-
-            page++
         }
+
     }
 
     override fun refresh() {
