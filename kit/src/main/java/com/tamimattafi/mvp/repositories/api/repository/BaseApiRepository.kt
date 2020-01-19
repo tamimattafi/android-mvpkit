@@ -14,10 +14,10 @@ open class BaseApiRepository : BaseRepository() {
 
     private val calls: ArrayList<Pair<RetrofitCallback<*, *>, Call<*>>> = ArrayList()
 
-    fun handleActionCall(call: Call<Void>): Callback<Boolean>
+    fun handleActionCall(call: Call<Void>): Callback<Void?>
             = createCallback { notification ->
                 call.handleCallback(notification) {
-                    notification.notifySuccess(true)
+                    notification.notifySuccess(it)
                 }
             }
 
