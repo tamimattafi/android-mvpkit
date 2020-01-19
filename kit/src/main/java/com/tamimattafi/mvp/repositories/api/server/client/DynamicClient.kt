@@ -10,10 +10,16 @@ interface DynamicClient {
     fun get(@Url url: String): Call<ResponseBody>
 
     @PUT
-    fun put(@Url url: String, @Body any: Any? = null): Call<ResponseBody>
+    fun put(@Url url: String, @Body any: Any): Call<ResponseBody>
+
+    @PUT
+    fun put(@Url url: String): Call<ResponseBody>
 
     @POST
-    fun post(@Url url: String, @Body any: Any? = null): Call<ResponseBody>
+    fun post(@Url url: String, @Body any: Any): Call<ResponseBody>
+
+    @POST
+    fun post(@Url url: String): Call<ResponseBody>
 
     @DELETE
     fun delete(@Url url: String): Call<ResponseBody>
