@@ -23,13 +23,15 @@ open class UrlBuilder(baseUrl: String = "") {
 
     fun query(query: Map<String, String>): UrlBuilder
         = this.also {
-            url = url.rebuild().apply {
-                if (!url.endsWith("?")) append("?")
+            if (query.isNotEmpty()) {
+                url = url.rebuild().apply {
+                    if (!url.endsWith("?")) append("?")
                     query.keys.forEachIndexed { index, key ->
                         append("$key=${query[key]}")
                         append(if (index == query.size -1) "" else "&")
                     }
-            }.toString()
+                }.toString()
+            }
         }
 
 
