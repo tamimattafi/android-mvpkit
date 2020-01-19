@@ -34,8 +34,6 @@ open class UrlBuilder(baseUrl: String = "") {
             }
         }
 
-
-
     private fun String.rebuild(): StringBuilder
         = StringBuilder().append(this)
 

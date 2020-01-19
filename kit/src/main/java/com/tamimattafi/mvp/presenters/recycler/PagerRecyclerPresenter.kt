@@ -14,13 +14,13 @@ abstract class PagerRecyclerPresenter<T, H : Holder, V : PagerListenerView<H>, R
 
             view.tryCall {
                 with(getAdapter()) {
-                    dataSource.getDataList(page).addSuccessListener { data ->
-                        handleData(data)
-                    }.addFailureListener { message ->
-                        handleError(message)
-                    }.addCompleteListener {
-                        isLoading = false
-                    }.start()
+                    dataSource.getDataList(page)
+                        .addSuccessListener(this@PagerRecyclerPresenter::handleData)
+                        .addFailureListener(this@PagerRecyclerPresenter::handleError)
+                        .addCompleteListener {
+                            isLoading = false
+                            notifyChanges()
+                        }.start()
                 }
             }
 
@@ -37,7 +37,7 @@ abstract class PagerRecyclerPresenter<T, H : Holder, V : PagerListenerView<H>, R
                     this@PagerRecyclerPresenter.data.addAll(data)
                     addNewData(data.size)
                     page++
-                } else notifyChanges()
+                }
             }
         }
 

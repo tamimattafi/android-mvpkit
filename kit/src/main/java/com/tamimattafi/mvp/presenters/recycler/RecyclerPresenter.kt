@@ -14,13 +14,12 @@ abstract class RecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : ListDat
         view.tryCall {
             with(getAdapter()) {
                 setTotalDataCount(0)
-                dataSource.getDataList().addSuccessListener { data ->
-                    handleData(data)
-                }.addFailureListener { message ->
-                    handleError(message)
-                }.addCompleteListener {
-                    isLoading = false
-                }.start()
+                dataSource.getDataList()
+                    .addSuccessListener(this@RecyclerPresenter::handleData)
+                    .addFailureListener(this@RecyclerPresenter::handleError)
+                    .addCompleteListener {
+                        isLoading = false
+                    }.start()
             }
         }
 
