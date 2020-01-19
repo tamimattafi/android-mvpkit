@@ -38,13 +38,10 @@ open class BaseApiRepository : BaseRepository() {
             }
 
 
-    fun <T> handleResponseBody(call: Call<ResponseBody>): Callback<T> =
+    fun <T> handleResponseBody(call: Call<ResponseBody>, clazz: Class<T>): Callback<T> =
         handleCustomBodyCall(call) { notification, data ->
             notification.notifySuccess(
-                Gson().fromJson(
-                    data.string(),
-                    object : TypeToken<T>() {}.type
-                )
+                Gson().fromJson(data.string(), clazz)
             )
         }
 
