@@ -55,6 +55,7 @@ abstract class BaseRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : Dat
             getAdapter().apply {
                 if (!isLoading) {
                     setTotalDataCount(0)
+                    dataSource.release()
                     data.clear()
                     loadData()
                 }
