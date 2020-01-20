@@ -45,6 +45,7 @@ abstract class PagerRecyclerPresenter<T, H : Holder, V : PagerListenerView<H>, R
 
     override fun refresh() {
         page = 0
+        allData = false
         super.refresh()
     }
 
