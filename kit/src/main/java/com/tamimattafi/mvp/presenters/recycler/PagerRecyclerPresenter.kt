@@ -9,21 +9,21 @@ abstract class PagerRecyclerPresenter<T, H : Holder, V : PagerListenerView<H>, R
     protected var page: Int = 0
     protected var allData: Boolean = false
 
+    override fun loadData() {
+        if (!allData) super.loadData()
+    }
+
     override fun loadRepositoryData() {
-        if (!allData) {
-
-            view.tryCall {
-                with(getAdapter()) {
-                    dataSource.getDataList(page)
-                        .addSuccessListener(this@PagerRecyclerPresenter::handleData)
-                        .addFailureListener(this@PagerRecyclerPresenter::handleError)
-                        .addCompleteListener {
-                            isLoading = false
-                            notifyChanges()
-                        }.start()
-                }
+        view.tryCall {
+            with(getAdapter()) {
+                dataSource.getDataList(page)
+                    .addSuccessListener(this@PagerRecyclerPresenter::handleData)
+                    .addFailureListener(this@PagerRecyclerPresenter::handleError)
+                    .addCompleteListener {
+                        isLoading = false
+                        notifyChanges()
+                    }.start()
             }
-
         }
     }
 
