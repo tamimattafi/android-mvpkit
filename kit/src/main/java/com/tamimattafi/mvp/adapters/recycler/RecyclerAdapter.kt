@@ -92,10 +92,7 @@ abstract class RecyclerAdapter<H : Holder>(private val view: ListenerView<H>) :
     }
 
     override fun isMainItemHolder(layoutPosition: Int): Boolean
-        = getItemCondition(layoutPosition)
-            && !getLoadingCondition(layoutPosition)
-            && !getEmptyCondition(layoutPosition)
-            && !getErrorCondition(layoutPosition)
+        = getItemViewType(layoutPosition) == TYPE_ITEM
 
     open fun getLoadingCondition(position: Int): Boolean = position == 0 && dataCount == 0 && isLoading
 
