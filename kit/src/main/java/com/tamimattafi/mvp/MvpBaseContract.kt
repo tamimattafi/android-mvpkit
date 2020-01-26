@@ -81,6 +81,7 @@ interface MvpBaseContract {
         fun notifyChanges()
         fun notifyDelete(listPosition: Int)
         fun notifyChanges(listPosition: Int)
+        fun isMainItemHolder(layoutPosition: Int): Boolean
     }
 
     interface PagerAdapter : Adapter {

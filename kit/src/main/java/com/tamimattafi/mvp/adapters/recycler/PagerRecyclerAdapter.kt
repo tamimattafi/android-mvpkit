@@ -36,6 +36,11 @@ abstract class PagerRecyclerAdapter<H : Holder>(view: ListenerView<H>) : Recycle
             else -> super.onCreateViewHolder(parent, viewType)
         }
 
+    override fun isMainItemHolder(layoutPosition: Int): Boolean
+        = super.isMainItemHolder(layoutPosition)
+            && !getLoadingMoreCondition(layoutPosition)
+            && !getLoadingErrorCondition(layoutPosition)
+
     override fun getItemCount(): Int = if (isLoading || hasError) dataCount + 1 else super.getItemCount()
 
     open fun getLoadingMoreCondition(position: Int) = dataCount > 0 && isLoading && position == dataCount
