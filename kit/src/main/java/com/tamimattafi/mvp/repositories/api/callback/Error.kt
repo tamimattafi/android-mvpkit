@@ -1,3 +1,8 @@
 package com.tamimattafi.mvp.repositories.api.callback
 
-data class Error(val message: String)
+import com.google.gson.annotations.SerializedName
+
+data class Error(
+    @SerializedName("message")
+    val message: String
+)
