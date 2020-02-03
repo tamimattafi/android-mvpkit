@@ -9,7 +9,7 @@ abstract class BaseRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : Dat
 ) : BasePresenter<V, R>(view, repository), RecyclerPresenter<H> {
 
     protected val data: ArrayList<T> = ArrayList()
-    abstract fun loadRepositoryData()
+    abstract fun loadDataFromSource()
 
     override fun loadData() {
         view.tryCall {
@@ -18,7 +18,7 @@ abstract class BaseRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : Dat
                     hasError = false
                     isLoading = true
                     notifyChanges()
-                    loadRepositoryData()
+                    loadDataFromSource()
                 }
             }
         }

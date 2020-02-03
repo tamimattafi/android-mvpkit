@@ -14,7 +14,7 @@ abstract class RxRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : RxLis
 
     private var disposable: Disposable? = null
 
-    override fun loadRepositoryData() {
+    override fun loadDataFromSource() {
         view.tryCall {
             with(getAdapter()) {
                 disposable?.dispose()

@@ -9,7 +9,7 @@ abstract class RecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : ListDat
     repository: R
 ) : BaseRecyclerPresenter<T, H, V, R>(view, repository), MvpBaseContract.RecyclerPresenter<H> {
 
-    override fun loadRepositoryData() {
+    override fun loadDataFromSource() {
 
         view.tryCall {
             with(getAdapter()) {

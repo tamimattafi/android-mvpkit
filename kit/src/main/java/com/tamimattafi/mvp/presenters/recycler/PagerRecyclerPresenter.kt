@@ -13,7 +13,7 @@ abstract class PagerRecyclerPresenter<T, H : Holder, V : PagerListenerView<H>, R
         if (!allData) super.loadData()
     }
 
-    override fun loadRepositoryData() {
+    override fun loadDataFromSource() {
         view.tryCall {
             with(getAdapter()) {
                 dataSource.getDataList(page)
@@ -44,9 +44,13 @@ abstract class PagerRecyclerPresenter<T, H : Holder, V : PagerListenerView<H>, R
     }
 
     override fun refresh() {
-        page = 0
-        allData = false
-        super.refresh()
+        view.tryCall {
+            if (!getAdapter().isLoading) {
+                page = 0
+                allData = false
+                super.refresh()
+            }
+        }
     }
 
 }
