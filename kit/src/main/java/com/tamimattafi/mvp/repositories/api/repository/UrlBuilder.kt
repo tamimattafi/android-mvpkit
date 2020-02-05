@@ -38,4 +38,7 @@ open class UrlBuilder(baseUrl: String = "") {
         = StringBuilder().append(this)
 
     fun build(): String = url
+
+    fun rebuild(): UrlBuilder = UrlBuilder(url)
+
 }
