@@ -36,7 +36,13 @@ interface DynamicClient {
     @DELETE
     fun delete(@Url url: String): Call<Void>
 
+    @HTTP(method = "DELETE", hasBody = true)
+    fun delete(@Url url: String, @Body any: Any): Call<Void>
+
     @DELETE
     fun deleteListen(@Url url: String): Call<ResponseBody>
+
+    @HTTP(method = "DELETE", hasBody = true)
+    fun deleteListen(@Url url: String, @Body any: Any): Call<ResponseBody>
 
 }
