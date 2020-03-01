@@ -1,7 +1,7 @@
 package com.tamimattafi.mvp.repositories.callbacks
 
 import com.tamimattafi.mvp.MvpBaseContract
-import com.tamimattafi.mvp.MvpBaseContract.Callback
+import com.tamimattafi.mvp.core.Callback
 
 class ActionCallback<T> : MvpBaseContract.ActionCallback<T> {
 
@@ -11,16 +11,16 @@ class ActionCallback<T> : MvpBaseContract.ActionCallback<T> {
 
     private var action: ((callback: MvpBaseContract.ActionCallback<T>) -> Unit)? = null
 
-    override fun addSuccessListener(onSuccess: (data: T) -> Unit): Callback<T> =
+    override fun addSuccessListener(onSuccess: (data: T) -> Unit): com.tamimattafi.mvp.core.Callback<T> =
         this.also { it.onSuccess.add(onSuccess) }
 
-    override fun addFailureListener(onFailure: (message: String) -> Unit): Callback<T> =
+    override fun addFailureListener(onFailure: (message: String) -> Unit): com.tamimattafi.mvp.core.Callback<T> =
         this.also { it.onFailure.add(onFailure) }
 
-    override fun addCompleteListener(onComplete: () -> Unit): Callback<T> =
+    override fun addCompleteListener(onComplete: () -> Unit): com.tamimattafi.mvp.core.Callback<T> =
         this.also { it.onComplete.add(onComplete) }
 
-    override fun setAction(action: (callback: MvpBaseContract.ActionCallback<T>) -> Unit): Callback<T> =
+    override fun setAction(action: (callback: MvpBaseContract.ActionCallback<T>) -> Unit): com.tamimattafi.mvp.core.Callback<T> =
         this.also { it.action = action }
 
     override fun start() {

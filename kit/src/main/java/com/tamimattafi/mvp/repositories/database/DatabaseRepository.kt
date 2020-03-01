@@ -1,7 +1,7 @@
 package com.tamimattafi.mvp.repositories.database
 
 import androidx.sqlite.db.SupportSQLiteQuery
-import com.tamimattafi.mvp.MvpBaseContract.Callback
+import com.tamimattafi.mvp.core.Callback
 import com.tamimattafi.mvp.MvpBaseContract.DatabaseRepository
 import com.tamimattafi.mvp.repositories.database.async.ItemActionAsync
 import com.tamimattafi.mvp.repositories.database.async.ItemActionAsync.Companion.DELETE
@@ -22,27 +22,27 @@ open class DatabaseRepository<T>(private val dao: BaseDao<T>) : BaseRepository()
 
     override fun getRxItem(query: SupportSQLiteQuery): Flowable<T> = dao.getRxItem(query)
 
-    override fun getList(query: SupportSQLiteQuery): Callback<ArrayList<T>> = createCallback {
+    override fun getList(query: SupportSQLiteQuery): com.tamimattafi.mvp.core.Callback<ArrayList<T>> = createCallback {
         ListAsync(it, dao).execute(query)
     }
 
-    override fun getItem(query: SupportSQLiteQuery): Callback<T> = createCallback {
+    override fun getItem(query: SupportSQLiteQuery): com.tamimattafi.mvp.core.Callback<T> = createCallback {
         ItemAsync(it, dao).execute(query)
     }
 
-    override fun delete(item: T): Callback<Int> = createCallback {
+    override fun delete(item: T): com.tamimattafi.mvp.core.Callback<Int> = createCallback {
         ItemActionAsync(it, dao).execute(Pair(DELETE, item))
     }
 
-    override fun update(item: T): Callback<Int> = createCallback {
+    override fun update(item: T): com.tamimattafi.mvp.core.Callback<Int> = createCallback {
         ItemActionAsync(it, dao).execute(Pair(UPDATE, item))
     }
 
-    override fun insert(item: T): Callback<Long> = createCallback {
+    override fun insert(item: T): com.tamimattafi.mvp.core.Callback<Long> = createCallback {
         ItemActionAsync(it, dao).execute(Pair(INSERT, item))
     }
 
-    override fun insertAll(items: ArrayList<T>): Callback<List<Long>> = createCallback {
+    override fun insertAll(items: ArrayList<T>): com.tamimattafi.mvp.core.Callback<List<Long>> = createCallback {
         ListActionAsync(it, dao).execute(Pair(INSERT_ALL, items))
     }
 

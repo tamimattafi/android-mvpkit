@@ -2,9 +2,9 @@ package com.tamimattafi.mvp.repositories.database.async
 
 import com.tamimattafi.mvp.MvpBaseContract.NotificationCallback
 import com.tamimattafi.mvp.repositories.database.BaseDao
-import com.tamimattafi.mvp.threads.Async
+import com.tamimattafi.mvp.core.threads.SimpleAsync
 
-class ListActionAsync<T, R>(callback: NotificationCallback<R>, private val dao: BaseDao<T>) : Async<Pair<Int, ArrayList<T>>, R>(callback) {
+class ListActionAsync<T, R>(callback: NotificationCallback<R>, private val dao: BaseDao<T>) : com.tamimattafi.mvp.core.threads.SimpleAsync<Pair<Int, ArrayList<T>>, R>(callback) {
 
     override fun doWork(param: Pair<Int, ArrayList<T>>): R = with(param) {
         dao.run {

@@ -1,7 +1,6 @@
 package com.tamimattafi.mvp.presenters.recycler.global
 
 import com.tamimattafi.mvp.MvpBaseContract.*
-import com.tamimattafi.mvp.presenters.BasePresenter
 
 abstract class BaseRecyclerPresenter<T, H : Holder, V : ListenerView<H>, R : DataSource>(
     view: V,

@@ -6,12 +6,9 @@ import io.reactivex.Flowable
 
 interface MvpBaseContract {
 
-    interface DataSource {
-        fun release()
-    }
 
     interface ListDataSource<T> : DataSource {
-        fun getDataList(): Callback<ArrayList<T>>
+        fun getDataList(): com.tamimattafi.mvp.core.Callback<ArrayList<T>>
     }
 
     interface RxListDataSource<T> : DataSource {
@@ -19,25 +16,11 @@ interface MvpBaseContract {
     }
 
     interface PagerListDataSource<T> : DataSource {
-        fun getDataList(page: Int): Callback<ArrayList<T>>
+        fun getDataList(page: Int): com.tamimattafi.mvp.core.Callback<ArrayList<T>>
     }
 
-    interface ActionCallback<T> : Callback<T>, NotificationCallback<T> {
-        fun setAction(action: (callback: ActionCallback<T>) -> Unit): Callback<T>
-    }
-
-    interface Callback<T> {
-        fun addSuccessListener(onSuccess: (data: T) -> Unit): Callback<T>
-        fun addFailureListener(onFailure: (message: String) -> Unit): Callback<T>
-        fun addCompleteListener(onComplete: () -> Unit): Callback<T>
-        fun start()
-        fun cancel()
-    }
-
-    interface NotificationCallback<T> {
-        fun notifySuccess(data: T)
-        fun notifyFailure(message: String)
-        fun notifyComplete()
+    interface ActionCallback<T> : com.tamimattafi.mvp.core.Callback<T>, NotificationCallback<T> {
+        fun setAction(action: (callback: ActionCallback<T>) -> Unit): com.tamimattafi.mvp.core.Callback<T>
     }
 
     interface Presenter {
@@ -107,12 +90,12 @@ interface MvpBaseContract {
     interface DatabaseRepository<T> : DataSource {
         fun getRxList(query: SupportSQLiteQuery): Flowable<List<T>>
         fun getRxItem(query: SupportSQLiteQuery): Flowable<T>
-        fun getList(query: SupportSQLiteQuery): Callback<ArrayList<T>>
-        fun getItem(query: SupportSQLiteQuery): Callback<T>
-        fun delete(item: T): Callback<Int>
-        fun update(item: T): Callback<Int>
-        fun insert(item: T): Callback<Long>
-        fun insertAll(items: ArrayList<T>): Callback<List<Long>>
+        fun getList(query: SupportSQLiteQuery): com.tamimattafi.mvp.core.Callback<ArrayList<T>>
+        fun getItem(query: SupportSQLiteQuery): com.tamimattafi.mvp.core.Callback<T>
+        fun delete(item: T): com.tamimattafi.mvp.core.Callback<Int>
+        fun update(item: T): com.tamimattafi.mvp.core.Callback<Int>
+        fun insert(item: T): com.tamimattafi.mvp.core.Callback<Long>
+        fun insertAll(items: ArrayList<T>): com.tamimattafi.mvp.core.Callback<List<Long>>
     }
 
 

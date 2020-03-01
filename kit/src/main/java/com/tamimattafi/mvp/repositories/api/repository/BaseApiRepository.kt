@@ -1,8 +1,7 @@
 package com.tamimattafi.mvp.repositories.api.repository
 
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.tamimattafi.mvp.MvpBaseContract.Callback
+import com.tamimattafi.mvp.core.Callback
 import com.tamimattafi.mvp.MvpBaseContract.NotificationCallback
 import com.tamimattafi.mvp.repositories.api.callback.RetrofitCallback
 import com.tamimattafi.mvp.repositories.global.BaseRepository
@@ -14,14 +13,14 @@ open class BaseApiRepository : BaseRepository() {
 
     private val calls: ArrayList<Pair<RetrofitCallback<*, *>, Call<*>>> = ArrayList()
 
-    fun handleActionCall(call: Call<Void>): Callback<Void?>
+    fun handleActionCall(call: Call<Void>): com.tamimattafi.mvp.core.Callback<Void?>
             = createCallback { notification ->
                 call.handleCallback(notification) {
                     notification.notifySuccess(null)
                 }
             }
 
-    fun <T, R> handleCustomBodyCall(call: Call<T>, action: (notification: NotificationCallback<R>, data: T) -> Unit): Callback<R>
+    fun <T, R> handleCustomBodyCall(call: Call<T>, action: (notification: NotificationCallback<R>, data: T) -> Unit): com.tamimattafi.mvp.core.Callback<R>
             = createCallback { notification ->
                 call.handleCallback(notification) { body ->
 
@@ -32,13 +31,13 @@ open class BaseApiRepository : BaseRepository() {
                 }
             }
 
-    fun <T> handleBodyCall(call: Call<T>): Callback<T>
+    fun <T> handleBodyCall(call: Call<T>): com.tamimattafi.mvp.core.Callback<T>
             = handleCustomBodyCall(call) { notification, data ->
                 notification.notifySuccess(data)
             }
 
 
-    fun <T> handleResponseBody(call: Call<ResponseBody>, clazz: Class<T>): Callback<T> =
+    fun <T> handleResponseBody(call: Call<ResponseBody>, clazz: Class<T>): com.tamimattafi.mvp.core.Callback<T> =
         handleCustomBodyCall(call) { notification, data ->
             notification.notifySuccess(
                 Gson().fromJson(data.string(), clazz)
