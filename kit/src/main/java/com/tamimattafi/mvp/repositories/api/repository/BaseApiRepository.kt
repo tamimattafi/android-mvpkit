@@ -4,7 +4,6 @@ import com.google.gson.Gson
 import com.tamimattafi.mvp.core.Callback
 import com.tamimattafi.mvp.MvpBaseContract.NotificationCallback
 import com.tamimattafi.mvp.repositories.api.callback.RetrofitCallback
-import com.tamimattafi.mvp.repositories.global.BaseRepository
 import com.tamimattafi.mvp.repositories.global.RepositoryConstants
 import okhttp3.ResponseBody
 import retrofit2.Call

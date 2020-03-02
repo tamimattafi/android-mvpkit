@@ -1,28 +1,152 @@
 package com.tamimattafi.mvp.core
 
+import android.util.Log
+
 interface CoreContract {
 
 
     /**
-     * This is the interface that should be returned to the caller
-     * It limits the caller from notifying any listeners
-     * It makes the caller able to only attach listeners, or cancel and start the process
      *
-     * @see addSuccessListener: adds a new success listener to the success sequence
-     * @see addFailureListener: adds a new failure listener to the failure sequence
-     * @see addCompleteListener: adds a new complete listener to the complete sequence
-     * @see start: will trigger the processing logic
-     * @see cancel: will clear all listening sequences and cancels processing logic if possible
+     * ##### TABLE OF CONTENT #####
+     *
+     *
+     *
+     * ## 1. Callbacks - Communication between layers ##
+     * @see ICallback
+     * @see ICallbackNotifier
+     * @see ICallbackManager
+     *
+     *
+     *
+     * ## 2. DataSources - Data processing ##
+     * @see IDataSource
+     *
+     *
+     *
+     * ## 3. Presenters - Presentation logic ##
+     * @see IPresenter
+     *
+     *
+     *
+     * ##4. ViewControllers - View binders and life-cycle handlers ##
+     * @see IViewController
+     *
+     *
+     *
+     */
+
+
+    /**
+     * This is the interface that should be returned to the consumer
+     * It limits the consumer from notifying any listeners
+     * It makes the consumer able to only attach listeners, clear them, or cancel and start the process
      *
      * @see ICallbackNotifier for more information
+     * @see com.tamimattafi.mvp.core.callbacks.Callback for implementation info
+     *
      */
     interface ICallback<T> {
+
+        /**
+         * Adds a new success listener to the success sequence
+         *
+         * @param onSuccess: a lambda with a return of type Unit. This lambda will be invoked
+         * when the processing is successful
+         *
+         * Inside this lambda you will have a member constant of type 'T' which is the result returned
+         * by the processor
+         *
+         * @see ICallbackNotifier.notifySuccess for more information
+         *
+         */
         fun addSuccessListener(onSuccess: (data: T) -> Unit): ICallback<T>
+
+
+        /**
+         * Adds a new failure listener to the failure sequence
+         *
+         * @param onFailure: a lambda with a return of type Unit. This lambda will be invoked
+         * when the processing fails
+         *
+         * Inside this lambda you will have a member constant of type String which is the error message returned
+         * by the processor
+         *
+         * @see ICallbackNotifier.notifyFailure for more information
+         *
+         */
         fun addFailureListener(onFailure: (message: String) -> Unit): ICallback<T>
+
+
+        /**
+         * Adds a new complete listener to the complete sequence
+         *
+         * @param onComplete: a lambda with a return of type Unit. This lambda will be invoked
+         * when the processing is completed
+         *
+         * Note that this lambda will be also invoked after all success or failure listeners are invoked
+         *
+         * @see ICallbackNotifier.notifyComplete for more information
+         *
+         */
         fun addCompleteListener(onComplete: () -> Unit): ICallback<T>
+
+
+        /**
+         * Adds a new cancel listener to the cancel sequence
+         *
+         * @param onCancel: a lambda with a return of type Unit. This lambda will be invoked
+         * when the processing is canceled
+         *
+         * @see ICallbackNotifier.notifyCancel for more information
+         *
+         */
+        fun addCancelListener(onCancel: () -> Unit): ICallback<T>
+
+
+        /**
+         * Adds a new start listener to the start sequence
+         *
+         * @param onStart: a lambda with a return of type Unit. This lambda will be invoked
+         * when the processing is started
+         *
+         * @see ICallbackNotifier.notifyStart for more information
+         *
+         */
+        fun addStartListener(onStart: () -> Unit): ICallback<T>
+
+
+        /**
+         * Triggers the processing logic, aka the lambda assigned by setAction method
+         *
+         * @see ICallbackManager.setAction for more information
+         *
+         * @see addStartListener: All start listeners will be triggered by this function
+         *
+         */
         fun start()
+
+
+        /**
+         * Clears all listening sequences such as success and failure listeners
+         *
+         */
+        fun clearListeners()
+
+
+        /**
+         * Clears all listening sequences, clears the action set by setAction and stops processing logic if possible
+         *
+         * @see clearListeners and
+         * @see ICallbackManager.setAction for more information
+         *
+         * @see addCancelListener: All cancel listeners will be triggered by this function
+         *
+         */
         fun cancel()
     }
+
+
+
 
 
     /**
@@ -30,36 +154,136 @@ interface CoreContract {
      * It limits the processor from starting, canceling or attaching listeners
      * It makes the processor able to trigger actions only
      *
-     * @see notifySuccess: triggers all the successListener attached to ICallback
-     * @see notifyFailure: triggers all the failure listeners attached to ICallback
-     * @see notifyComplete: triggers all the complete listeners attached to ICallback
-     *
      * @see ICallback for more information
+     * @see com.tamimattafi.mvp.core.callbacks.CallbackNotifier for implementation info
+     *
      */
     interface ICallbackNotifier<T> {
+
+
+        /**
+         * Triggers all the successListener attached to ICallback
+         *
+         * @param data: the data that will be sent to these listeners
+         *
+         */
         fun notifySuccess(data: T)
+
+
+        /**
+         * Triggers all the failure listeners attached to ICallback
+         *
+         * @param message: the error message that will be sent to these listeners
+         *
+         */
         fun notifyFailure(message: String)
+
+
+        /**
+         * Triggers all the complete listeners attached to ICallback
+         * This will be automatically triggered after success or failure triggers
+         *
+         */
         fun notifyComplete()
+
+
+        /**
+         * Triggers all the start listeners attached to ICallback
+         *
+         */
+        fun notifyStart()
+
+
+
+        /**
+         * Triggers all the cancel listeners attached to ICallback
+         *
+         */
+        fun notifyCancel()
+
+
+
     }
 
+
+
+
+
+    /**
+     * This interface should be implemented by a class that will hold both call-back and it's notifier
+     * and makes a connection between them
+     *
+     * @see ICallback and
+     * @see ICallbackNotifier for more information
+     *
+     * @see com.tamimattafi.mvp.core.callbacks.CallbackManager for implementation info
+     *
+     */
     interface ICallbackManager<T> {
-        fun getCallback(): ICallbackManager<T>
+
+        /**
+         * Returns the call-back that will be visible to the caller
+         *
+         * @see ICallback for more information
+         *
+         */
+        fun getCallback(): ICallback<T>
+
+
+        /**
+         * Returns the notifier that will be visible to the processor
+         *
+         * @see ICallbackNotifier for more information
+         *
+         */
         fun getCallbackNotifier(): ICallbackNotifier<T>
+
+
+        /**
+         * Sets the action of this call that will be triggered by start function
+         * @see ICallback.start for more information
+         *
+         * @param action: lambda with Unit return type that will be invoked by start method
+         * Inside this lambda you will have a member constant with the name 'it' of type ICallbackNotifier
+         *
+         * @see ICallbackNotifier for more information
+         *
+         */
         fun setAction(action: (notifier: ICallbackNotifier<T>) -> Unit): ICallbackManager<T>
     }
 
+
+
+
+
     /**
      * This interface must be implemented by every data-source that stores states such as repositories and interactors
-     * @see release: this method must clear all saved states and cancel all current processes if possible
-     * It also must be called when data listener is destroyed such as presenters or when other data-sources are released
      *
      * @see IPresenter for more information
      * @see IViewController for more information
      *
+     * @see com.tamimattafi.mvp.core.data.BaseDataSource for implementation info
+     *
      */
     interface IDataSource {
+
+
+        /**
+         * This method must clear all saved states and cancel all current processes if possible
+         * It also must be called when data-consumers are destroyed such as presenters, or when other data-sources are released
+         *
+         * @see IPresenter for more information
+         * @see IViewController for more information
+         *
+         */
         fun release()
+
+
     }
+
+
+
+
 
     /**
      * This interface must be implemented by every presenter in the app
@@ -69,26 +293,82 @@ interface CoreContract {
      *
      * @see onDestroy: when this method is called, all data-sources must be released
      * @see IDataSource for more information
+     *
+     * @see com.tamimattafi.mvp.core.presenters.BasePresenter for implementation info
+     *
      */
     interface IPresenter<V: IViewController> {
+
+
+        /**
+         * This method will be called when the view controller is paused
+         * For safest usage, this method should stop any interaction with the view
+         *
+         */
         fun onPause()
+
+
+        /**
+         * This method will be called when the view controller is resumed
+         * Resuming interactions with the view here is safe
+         *
+         */
         fun onResume()
+
+
+        /**
+         * This method will be called when the view controlled by the view controller is destroyed
+         * You must stop any interaction with the view in order to avoid NullPointerException
+         *
+         * @see NullPointerException for more information
+         *
+         */
         fun onDestroyView()
+
+
+        /**
+         * This method will be called when the view controller is destroyed
+         * You must stop any interaction or data processing and release all data sources and call-backs
+         *
+         * @see IDataSource.release,
+         * @see ICallback.cancel and
+         * @see ICallback.clearListeners for more information
+         *
+         */
         fun onDestroy()
+
+
     }
+
+
+
+
+
 
     /**
      * This interface should be implemented by every view controller such as fragments or activity
      * It will be the communication contract with the presenter in order to avoid concrete dependency and coupling
+     *
      * @see IPresenter for more information
      *
-     * @see IPresenter.onPause: Presenter's method that must be called when the view controller is paused
-     * @see IPresenter.onResume: Presenter's method that must be called when the view controller is resumed
-     * @see IPresenter.onDestroyView: Presenter's method that must be called when the view is destroyed
-     * @see IPresenter.onDestroy: Presenter's method that must be called when the view controller is destroyed
      */
     interface IViewController {
-        fun showMessage(message: String)
+
+
+        /**
+         * Shows a message sent by the presenter such ass success or failure messages
+         * The implementation of this method is optional
+         *
+         * @param message: A message of type string sent by the presenter
+         *
+         * @see IPresenter for more information
+         *
+         */
+        fun showMessage(message: String) {
+            Log.d("IViewController", message)
+        }
+
+
     }
 
 

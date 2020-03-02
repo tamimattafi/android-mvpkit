@@ -2,7 +2,19 @@ package com.tamimattafi.mvp.core.threads
 
 import com.tamimattafi.mvp.core.CoreContract.*
 
+
+/**
+ * Can be extended and injected to avoid boilerplate code of recreating async tasks
+ * Note that async tasks can be executed only once
+ *
+ * @see SimpleAsync for more information
+ *
+ * <P>: Parameter type
+ * <R>: Result type
+ *
+ */
 abstract class SingleParameterAsyncHandler<P, R> {
+
 
     /**
      * This method must be overridden and must return a new SimpleAsync<P, R> each time it is called

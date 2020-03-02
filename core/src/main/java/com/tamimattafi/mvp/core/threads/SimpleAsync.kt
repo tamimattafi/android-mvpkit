@@ -6,13 +6,29 @@ import com.tamimattafi.mvp.core.CoreContract.*
 import com.tamimattafi.mvp.core.utils.SyntaxUtils.TRY_CATCH_TAG
 import com.tamimattafi.mvp.core.utils.SyntaxUtils.tryCatch
 
-abstract class SimpleAsync<PARAM, RESULT>(private val notifier: ICallbackNotifier<RESULT>) : AsyncTask<PARAM, Int, RESULT>() {
+
+/**
+ * Can be extended to avoid boilerplate code of implementing an ordinary async task
+ * Note that async tasks can be executed only once
+ * This async implementation only accepts one parameter from execute method, more than that will be ignored
+ *
+ * @param notifier: the notifier that will trigger callbacks after the work is done
+ * @see ICallbackNotifier for more information
+ *
+ * <P>: Parameters type
+ * <R>: Result type
+ * <Int>: Progress type if available
+ *
+ */
+abstract class SimpleAsync<P, R>(private val notifier: ICallbackNotifier<R>) : AsyncTask<P, Int, R>() {
+
+
 
     /**
      * This method must be overridden in order to handle the of returning the result
      * @param param: the first parameter passed to execute method
      */
-    protected abstract fun doWork(param: PARAM): RESULT
+    protected abstract fun doWork(param: P): R
 
 
     /**
@@ -21,7 +37,7 @@ abstract class SimpleAsync<PARAM, RESULT>(private val notifier: ICallbackNotifie
      *
      * @param result: the result returned by the background work
      */
-    protected open fun ICallbackNotifier<RESULT>.onNotifyWorkFinished(result: RESULT?) {
+    protected open fun ICallbackNotifier<R>.onNotifyWorkFinished(result: R?) {
         result?.let { notifySuccess(it) } ?: notifyFailure(ERROR)
     }
 
@@ -33,7 +49,7 @@ abstract class SimpleAsync<PARAM, RESULT>(private val notifier: ICallbackNotifie
      *
      * @see doWork for more information
      */
-    final override fun doInBackground(vararg params: PARAM): RESULT?
+    final override fun doInBackground(vararg params: P): R?
             = tryCatch { doWork(params[0]) }
 
 
@@ -42,7 +58,7 @@ abstract class SimpleAsync<PARAM, RESULT>(private val notifier: ICallbackNotifie
      * @see onNotifyWorkFinished for more information
      */
     @CallSuper
-    override fun onPostExecute(result: RESULT?) {
+    override fun onPostExecute(result: R?) {
         super.onPostExecute(result)
         notifier.onNotifyWorkFinished(result)
     }
