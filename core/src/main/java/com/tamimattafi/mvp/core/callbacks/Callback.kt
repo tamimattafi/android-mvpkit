@@ -1,6 +1,6 @@
 package com.tamimattafi.mvp.core.callbacks
 
-import com.tamimattafi.mvp.core.CoreContract.ICallback
+import com.tamimattafi.mvp.core.ICoreContract.ICallback
 
 
 /**
@@ -45,6 +45,14 @@ open class Callback<T>(
 
 
     /**
+     * Stores all progress listeners attached by addProgressListener method
+     * @see addProgressListener for more information
+     *
+     */
+    open val progressSequence by lazy { ArrayList<(progress: Int) -> Unit>() }
+
+
+    /**
      * Stores all start listeners attached by addStartListener method
      * @see addStartListener for more information
      *
@@ -83,9 +91,17 @@ open class Callback<T>(
      *
      */
     @Synchronized
-    override fun addCompleteListener(onComplete: () -> Unit): ICallback<T> =
-        this.also { it.completeSequence.add(onComplete) }
+    override fun addCompleteListener(onComplete: () -> Unit): ICallback<T>
+            = this.also { it.completeSequence.add(onComplete) }
 
+
+    /**
+     * @see ICallback.addProgressListener for more information
+     *
+     */
+    @Synchronized
+    override fun addProgressListener(onProgress: (progress: Int) -> Unit): ICallback<T>
+            = this.also { it.progressSequence.add(onProgress) }
 
     /**
      * @see ICallback.addCancelListener for more information

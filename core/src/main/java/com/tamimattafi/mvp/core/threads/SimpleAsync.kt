@@ -1,10 +1,11 @@
 package com.tamimattafi.mvp.core.threads
 
 import android.os.AsyncTask
+import android.util.Log
 import androidx.annotation.CallSuper
-import com.tamimattafi.mvp.core.CoreContract.*
+import com.tamimattafi.mvp.core.ICoreContract.*
 import com.tamimattafi.mvp.core.utils.SyntaxUtils.TRY_CATCH_TAG
-import com.tamimattafi.mvp.core.utils.SyntaxUtils.tryCatch
+import java.lang.Exception
 
 
 /**
@@ -20,7 +21,7 @@ import com.tamimattafi.mvp.core.utils.SyntaxUtils.tryCatch
  * <Int>: Progress type if available
  *
  */
-abstract class SimpleAsync<P, R>(private val notifier: ICallbackNotifier<R>) : AsyncTask<P, Int, R>() {
+abstract class SimpleAsync<P, R>(private val notifier: ICallbackNotifier<R>) : AsyncTask<P, Int, AsyncResult<R>>() {
 
 
 
@@ -32,36 +33,60 @@ abstract class SimpleAsync<P, R>(private val notifier: ICallbackNotifier<R>) : A
 
 
     /**
-     * This method will be called after the background is finished
-     * @see onPostExecute for more information
-     *
-     * @param result: the result returned by the background work
-     */
-    protected open fun ICallbackNotifier<R>.onNotifyWorkFinished(result: R?) {
-        result?.let { notifySuccess(it) } ?: notifyFailure(ERROR)
-    }
-
-
-    /**
      * This is the ordinary doInBackground method of AsyncTask, the difference is that it is crash-safe
      * by being is surrounded by a try-catch block
      * If the work fails and throws an exception, a null is returned as a result
      *
      * @see doWork for more information
      */
-    final override fun doInBackground(vararg params: P): R?
-            = tryCatch { doWork(params[0]) }
+    final override fun doInBackground(vararg params: P): AsyncResult<R>
+            = try {
+                AsyncResult(result = doWork(params[0]))
+            } catch (exception: Exception) {
+                Log.d(TRY_CATCH_TAG, exception.message ?: exception.localizedMessage ?: exception.toString())
+                exception.printStackTrace()
+                AsyncResult(exception = exception)
+            }
 
 
     /**
-     * This is the ordinary doInBackground method of AsyncTask
+     * This is the ordinary onPostExecute method of AsyncTask
      * @see onNotifyWorkFinished for more information
+     *
+     * @param result <R?>: the result returned from the execution
+     *
      */
     @CallSuper
-    override fun onPostExecute(result: R?) {
+    override fun onPostExecute(result: AsyncResult<R>) {
         super.onPostExecute(result)
         notifier.onNotifyWorkFinished(result)
     }
+
+    /**
+     * This method will be called after the background is finished
+     * @see onPostExecute for more information
+     *
+     * @param result: the result returned by the background work
+     */
+    protected open fun ICallbackNotifier<R>.onNotifyWorkFinished(result: AsyncResult<R>) {
+        result.result?.let { notifySuccess(it) } ?: notifyFailure(result.exception?.message ?: ERROR)
+    }
+
+
+    /**
+     * This is the ordinary onProgressUpdate method of AsyncTask
+     * Here, call-back attached progress listeners are being notified about execution progress
+     *
+     * @param values: The returned execution values from publishProgress method
+     *
+     * @see publishProgress for more information
+     *
+     */
+    override fun onProgressUpdate(vararg values: Int?) {
+        super.onProgressUpdate(*values)
+        notifier.notifyProgress(values[0] ?: return)
+    }
+
 
     companion object {
 

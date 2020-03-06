@@ -2,7 +2,7 @@ package com.tamimattafi.mvp.core
 
 import android.util.Log
 
-interface CoreContract {
+interface ICoreContract {
 
 
     /**
@@ -92,6 +92,21 @@ interface CoreContract {
 
 
         /**
+         * Adds a new progress listener to the progress sequence
+         *
+         * @param onProgress: a lambda with a return of type Unit. This lambda will be invoked
+         * when the processing fails
+         *
+         * Inside this lambda you will have a member constant of type Int which is the current progress of execution returned
+         * by the processor
+         *
+         * @see ICallbackNotifier.notifyProgress for more information
+         *
+         */
+        fun addProgressListener(onProgress: (progress: Int) -> Unit): ICallback<T>
+
+
+        /**
          * Adds a new cancel listener to the cancel sequence
          *
          * @param onCancel: a lambda with a return of type Unit. This lambda will be invoked
@@ -166,6 +181,8 @@ interface CoreContract {
          *
          * @param data: the data that will be sent to these listeners
          *
+         * @see ICallback.addSuccessListener for more information
+         *
          */
         fun notifySuccess(data: T)
 
@@ -175,6 +192,8 @@ interface CoreContract {
          *
          * @param message: the error message that will be sent to these listeners
          *
+         * @see ICallback.addFailureListener for more information
+         *
          */
         fun notifyFailure(message: String)
 
@@ -183,12 +202,26 @@ interface CoreContract {
          * Triggers all the complete listeners attached to ICallback
          * This will be automatically triggered after success or failure triggers
          *
+         * @see ICallback.addCompleteListener for more information
+         *
          */
         fun notifyComplete()
 
 
         /**
+         * Triggers all the progress listeners attached to ICallback
+         *
+         * @param progress: the current execution progress value returned by the processor
+         *
+         * @see ICallback.addProgressListener for more information
+         *
+         */
+        fun notifyProgress(progress: Int)
+
+        /**
          * Triggers all the start listeners attached to ICallback
+         *
+         * @see ICallback.addStartListener for more information
          *
          */
         fun notifyStart()
@@ -197,6 +230,8 @@ interface CoreContract {
 
         /**
          * Triggers all the cancel listeners attached to ICallback
+         *
+         * @see ICallback.addCancelListener for more information
          *
          */
         fun notifyCancel()
@@ -280,8 +315,6 @@ interface CoreContract {
 
 
     }
-
-
 
 
 

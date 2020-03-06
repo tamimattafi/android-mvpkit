@@ -1,6 +1,6 @@
 package com.tamimattafi.mvp.core.threads
 
-import com.tamimattafi.mvp.core.CoreContract.*
+import com.tamimattafi.mvp.core.ICoreContract.*
 
 
 /**

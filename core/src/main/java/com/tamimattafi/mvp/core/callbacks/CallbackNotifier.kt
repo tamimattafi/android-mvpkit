@@ -1,6 +1,6 @@
 package com.tamimattafi.mvp.core.callbacks
 
-import com.tamimattafi.mvp.core.CoreContract.ICallbackNotifier
+import com.tamimattafi.mvp.core.ICoreContract.ICallbackNotifier
 
 
 /**
@@ -56,6 +56,17 @@ open class CallbackNotifier<T>(protected open val callback: Callback<T>) : ICall
 
 
     /**
+     * @see ICallbackNotifier.notifyProgress for more information
+     *
+     */
+    @Synchronized
+    override fun notifyProgress(progress: Int) {
+        callback.progressSequence.forEach {
+            it.invoke(progress)
+        }
+    }
+
+    /**
      * @see ICallbackNotifier.notifyCancel for more information
      *
      */
@@ -77,4 +88,7 @@ open class CallbackNotifier<T>(protected open val callback: Callback<T>) : ICall
             it.invoke()
         }
     }
+
+
+
 }

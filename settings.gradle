@@ -1,3 +1,4 @@
 include ':kit'
 rootProject.name='mvp'
 include ':core'
+include ':rest'

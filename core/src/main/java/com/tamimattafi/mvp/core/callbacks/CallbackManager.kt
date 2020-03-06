@@ -1,7 +1,7 @@
 package com.tamimattafi.mvp.core.callbacks
 
 import androidx.annotation.CallSuper
-import com.tamimattafi.mvp.core.CoreContract.*
+import com.tamimattafi.mvp.core.ICoreContract.*
 
 
 /**
