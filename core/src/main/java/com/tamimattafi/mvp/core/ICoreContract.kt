@@ -15,6 +15,7 @@ interface ICoreContract {
      * @see ICallback
      * @see ICallbackNotifier
      * @see ICallbackManager
+     * @see ICallbackError
      *
      *
      *
@@ -68,13 +69,14 @@ interface ICoreContract {
          * @param onFailure: a lambda with a return of type Unit. This lambda will be invoked
          * when the processing fails
          *
-         * Inside this lambda you will have a member constant of type String which is the error message returned
+         * Inside this lambda you will have a member constant of type ICallbackError which is the error returned
          * by the processor
          *
-         * @see ICallbackNotifier.notifyFailure for more information
+         * @see ICallbackNotifier.notifyFailure and
+         * @see ICallbackError for more information
          *
          */
-        fun addFailureListener(onFailure: (message: String) -> Unit): ICallback<T>
+        fun addFailureListener(onFailure: (error: ICallbackError) -> Unit): ICallback<T>
 
 
         /**
@@ -190,12 +192,13 @@ interface ICoreContract {
         /**
          * Triggers all the failure listeners attached to ICallback
          *
-         * @param message: the error message that will be sent to these listeners
+         * @param error: the error that will be sent to these listeners
          *
-         * @see ICallback.addFailureListener for more information
+         * @see ICallback.addFailureListener and
+         * @see ICallbackError for more information
          *
          */
-        fun notifyFailure(message: String)
+        fun notifyFailure(error: ICallbackError)
 
 
         /**
@@ -285,6 +288,44 @@ interface ICoreContract {
          *
          */
         fun setAction(action: (notifier: ICallbackNotifier<T>) -> Unit): ICallbackManager<T>
+    }
+
+
+    /**
+     * Every error returned by a call-back must implement this interface
+     *
+     * @see ICallbackNotifier.notifyFailure for more info
+     *
+     */
+    interface ICallbackError {
+
+
+        /**
+         * Short definition of the occurred error and sometimes might contain a suggestion or a solution
+         *
+         * @see Exception for more information
+         *
+         */
+        var message: String?
+
+
+        /**
+         * Short definition of the occurred error but less technical and more user-friendly, also might contain a suggestion or a solution
+         * and also might match user's local and language
+         *
+         * @see Exception for more information
+         *
+         */
+        var localizedMessage: String?
+
+
+        /**
+         * A code that describes certain error such as REST response codes
+         *
+         * @see Exception for more information
+         *
+         */
+        var code: Int?
     }
 
 

@@ -42,10 +42,8 @@ abstract class BaseDataSource : IDataSource {
      *
      */
     protected fun <T> createCallback(action: (callback: ICallbackNotifier<T>) -> Unit): ICallback<T> =
-        CallbackManager<T>().run {
-            setAction(action)
-            getCallback().apply { handle() }
-        }
+        CallbackManager<T>().setAction(action).getCallback().apply { handle() }
+
 
 
     /**

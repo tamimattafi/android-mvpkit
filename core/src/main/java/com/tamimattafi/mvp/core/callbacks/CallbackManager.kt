@@ -77,7 +77,7 @@ open class CallbackManager<T> : ICallbackManager<T> {
     @CallSuper
     protected open fun invokeAction() {
         notifier.notifyStart()
-        action?.invoke(notifier) ?: notifier.notifyFailure(CallbackConstants.ACTION_ERROR)
+        action?.invoke(notifier) ?: notifier.notifyFailure(CallbackError(CallbackConstants.ACTION_ERROR))
     }
 
 

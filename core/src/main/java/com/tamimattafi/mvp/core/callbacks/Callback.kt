@@ -1,6 +1,6 @@
 package com.tamimattafi.mvp.core.callbacks
 
-import com.tamimattafi.mvp.core.ICoreContract.ICallback
+import com.tamimattafi.mvp.core.ICoreContract.*
 
 
 /**
@@ -33,7 +33,7 @@ open class Callback<T>(
      * @see addFailureListener for more information
      *
      */
-    open val failureSequence by lazy { ArrayList<(message: String) -> Unit>() }
+    open val failureSequence by lazy { ArrayList<(error: ICallbackError) -> Unit>() }
 
 
     /**
@@ -82,7 +82,7 @@ open class Callback<T>(
      *
      */
     @Synchronized
-    override fun addFailureListener(onFailure: (message: String) -> Unit): ICallback<T> =
+    override fun addFailureListener(onFailure: (error: ICallbackError) -> Unit): ICallback<T> =
         this.also { it.failureSequence.add(onFailure) }
 
 

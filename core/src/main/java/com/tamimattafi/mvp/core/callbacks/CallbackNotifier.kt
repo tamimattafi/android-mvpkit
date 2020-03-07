@@ -1,6 +1,6 @@
 package com.tamimattafi.mvp.core.callbacks
 
-import com.tamimattafi.mvp.core.ICoreContract.ICallbackNotifier
+import com.tamimattafi.mvp.core.ICoreContract.*
 
 
 /**
@@ -29,13 +29,13 @@ open class CallbackNotifier<T>(protected open val callback: Callback<T>) : ICall
 
 
     /**
-     * @see ICallbackNotifier.notifySuccess for more information
+     * @see ICallbackNotifier.notifyFailure for more information
      *
      */
     @Synchronized
-    override fun notifyFailure(message: String) {
+    override fun notifyFailure(error: ICallbackError) {
         callback.failureSequence.forEach {
-            it.invoke(message)
+            it.invoke(error)
         }
 
         notifyComplete()

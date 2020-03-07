@@ -76,16 +76,7 @@ interface MvpBaseContract {
         fun onHolderAction(holder: HOLDER?, action: Int)
     }
 
-    interface AuthPreferences<T : Token> {
-        fun setLoggedIn(boolean: Boolean)
-        fun isLoggedIn(): Boolean
-        fun setToken(token: T?)
-        fun getToken(): T?
-    }
 
-    interface Token {
-        val value: String
-    }
 
     interface DatabaseRepository<T> : DataSource {
         fun getRxList(query: SupportSQLiteQuery): Flowable<List<T>>

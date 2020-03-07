@@ -4,6 +4,7 @@ import android.os.AsyncTask
 import android.util.Log
 import androidx.annotation.CallSuper
 import com.tamimattafi.mvp.core.ICoreContract.*
+import com.tamimattafi.mvp.core.callbacks.CallbackError
 import com.tamimattafi.mvp.core.utils.SyntaxUtils.TRY_CATCH_TAG
 import java.lang.Exception
 
@@ -69,7 +70,7 @@ abstract class SimpleAsync<P, R>(private val notifier: ICallbackNotifier<R>) : A
      * @param result: the result returned by the background work
      */
     protected open fun ICallbackNotifier<R>.onNotifyWorkFinished(result: AsyncResult<R>) {
-        result.result?.let { notifySuccess(it) } ?: notifyFailure(result.exception?.message ?: ERROR)
+        result.result?.let { notifySuccess(it) } ?: notifyFailure(CallbackError(result.exception?.message, result.exception?.localizedMessage))
     }
 
 
