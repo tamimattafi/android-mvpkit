@@ -2,6 +2,9 @@ package com.tamimattafi.mvp.rest
 
 import android.content.SharedPreferences
 import com.google.gson.annotations.SerializedName
+import com.tamimattafi.mvp.core.ICoreContract.*
+import retrofit2.Call
+import retrofit2.Response
 
 
 interface IRestContract {
@@ -20,6 +23,7 @@ interface IRestContract {
      *
      * ## 2. Authentication - Server usage authorization
      * @see IToken
+     *
      *
      *
      *
@@ -107,4 +111,38 @@ interface IRestContract {
     interface IToken {
         val value: String
     }
+
+
+
+
+    /**
+     * A simplifier and more functional retrofit call-back
+     *
+     * @see com.tamimattafi.mvp.rest.callbacks.RetrofitCallback for implementation info
+     * @see ICallback and
+     * @see ICallbackNotifier for more information
+     *
+     */
+    interface IRetrofitCallback<T, R> {
+        fun start(call: Call<T>)
+        fun addSuccessListener(onSuccess: (response: Response<T>) -> Unit): IRetrofitCallback<T, R>
+        fun addFailureListener(onFailure: (error: ICallbackError) -> Unit): IRetrofitCallback<T, R>
+        fun addCompleteListener(onComplete: () -> Unit): IRetrofitCallback<T, R>
+
+
+
+
+        /**
+         * When this method is called it prevents the call-back from notifying other listeners
+         * The call itself is also canceled here
+         *
+         * @see ICallbackNotifier and
+         * @see retrofit2.Call for more information
+         *
+         */
+        fun cancel()
+    }
+
+
+
 }
