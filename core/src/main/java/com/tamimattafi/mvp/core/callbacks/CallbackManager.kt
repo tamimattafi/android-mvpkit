@@ -77,7 +77,7 @@ open class CallbackManager<T> : ICallbackManager<T> {
     @CallSuper
     protected open fun invokeAction() {
         notifier.notifyStart()
-        action?.invoke(notifier) ?: notifier.notifyFailure(CallbackError(CallbackConstants.ACTION_ERROR))
+        action?.invoke(notifier) ?: notifier.notifyFailure(CallbackError(ACTION_ERROR))
     }
 
 
@@ -92,6 +92,11 @@ open class CallbackManager<T> : ICallbackManager<T> {
         action = null
         notifier.notifyCancel()
         callback.clearListeners()
+    }
+
+
+    companion object {
+        const val ACTION_ERROR = "This call back might be complete or has no action to execute"
     }
 
 }

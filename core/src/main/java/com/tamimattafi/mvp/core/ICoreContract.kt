@@ -331,34 +331,6 @@ interface ICoreContract {
 
 
 
-
-    /**
-     * This interface must be implemented by every data-source that stores states such as repositories and interactors
-     *
-     * @see IPresenter for more information
-     * @see IViewController for more information
-     *
-     * @see com.tamimattafi.mvp.core.data.BaseDataSource for implementation info
-     *
-     */
-    interface IDataSource {
-
-
-        /**
-         * This method must clear all saved states and cancel all current processes if possible
-         * It also must be called when data-consumers are destroyed such as presenters, or when other data-sources are released
-         *
-         * @see IPresenter for more information
-         * @see IViewController for more information
-         *
-         */
-        fun release()
-
-
-    }
-
-
-
     /**
      * This interface must be implemented by every presenter in the app
      * It will be the communication contract with the view controller in order to avoid concrete dependency and coupling

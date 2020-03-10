@@ -78,16 +78,7 @@ interface MvpBaseContract {
 
 
 
-    interface DatabaseRepository<T> : DataSource {
-        fun getRxList(query: SupportSQLiteQuery): Flowable<List<T>>
-        fun getRxItem(query: SupportSQLiteQuery): Flowable<T>
-        fun getList(query: SupportSQLiteQuery): com.tamimattafi.mvp.core.Callback<ArrayList<T>>
-        fun getItem(query: SupportSQLiteQuery): com.tamimattafi.mvp.core.Callback<T>
-        fun delete(item: T): com.tamimattafi.mvp.core.Callback<Int>
-        fun update(item: T): com.tamimattafi.mvp.core.Callback<Int>
-        fun insert(item: T): com.tamimattafi.mvp.core.Callback<Long>
-        fun insertAll(items: ArrayList<T>): com.tamimattafi.mvp.core.Callback<List<Long>>
-    }
+
 
 
 }
