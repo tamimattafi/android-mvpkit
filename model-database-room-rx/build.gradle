@@ -35,6 +35,7 @@ android {
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
         exclude 'META-INF/app_release.kotlin_module'
+        exclude 'META-INF/model-database-room-rx_release.kotlin_module'
     }
 
 }
