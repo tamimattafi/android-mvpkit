@@ -4,7 +4,7 @@ import androidx.annotation.CallSuper
 import com.google.gson.Gson
 import com.tamimattafi.mvp.core.ICoreContract.*
 import com.tamimattafi.mvp.core.callbacks.CallbackError
-import com.tamimattafi.mvp.core.data.BaseDataSource
+import com.tamimattafi.mvp.model.data.BaseDataSource
 import com.tamimattafi.mvp.model.rest.retrofit.IRetrofitContract.*
 import com.tamimattafi.mvp.model.rest.retrofit.callbacks.RetrofitCallback
 import okhttp3.ResponseBody
