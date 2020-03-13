@@ -70,7 +70,12 @@ abstract class BaseDataSource : IDataSource {
      */
     @CallSuper
     override fun release() {
-        callbacks.forEach { it.cancel() }
+        callbacks.forEach {
+            it.apply {
+                clearListeners()
+                cancel()
+            }
+        }
         callbacks.clear()
     }
 }
